@@ -152,7 +152,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess }: AuthModalP
                       
                       <Button 
                         type="submit" 
-                        className="w-full bg-coral-500 hover:bg-coral-600 text-white"
+                        className="w-full bg-sonar-coral-500 hover:bg-sonar-coral-600 text-white"
                       >
                         Sign In
                       </Button>
@@ -223,7 +223,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess }: AuthModalP
                       
                       <Button 
                         type="submit" 
-                        className="w-full bg-coral-500 hover:bg-coral-600 text-white"
+                        className="w-full bg-sonar-coral-500 hover:bg-sonar-coral-600 text-white"
                       >
                         Create Account
                       </Button>

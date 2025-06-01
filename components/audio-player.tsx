@@ -164,7 +164,7 @@ export function AudioPlayer({ track, tracks, onTrackChange, className, expanded 
             variant="default" 
             size="icon" 
             onClick={togglePlayPause}
-            className="bg-coral-500 hover:bg-coral-600 text-white rounded-full h-10 w-10"
+            className="bg-sonar-coral-500 hover:bg-sonar-coral-600 text-white rounded-full h-10 w-10"
           >
             {isPlaying ? 
               <Pause className="h-5 w-5" /> : 

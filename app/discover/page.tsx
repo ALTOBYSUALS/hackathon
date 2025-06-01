@@ -127,7 +127,7 @@ export default function DiscoverPage() {
   return (
     <div className="min-h-screen bg-background pb-16">
       {/* Header */}
-      <div className="bg-gradient-to-r from-coral-600/90 to-coral-500/90 text-white">
+      <div className="bg-gradient-to-r from-sonar-coral-600/90 to-sonar-coral-500/90 text-white">
         <div className="container mx-auto px-4 py-8">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
@@ -154,7 +154,7 @@ export default function DiscoverPage() {
               
               <Button 
                 onClick={() => setShowUpload(!showUpload)}
-                className="bg-white text-coral-600 hover:bg-white/90"
+                className="bg-white text-sonar-coral-600 hover:bg-white/90"
               >
                 {showUpload ? 'Cancel' : 'Upload Track'}
               </Button>

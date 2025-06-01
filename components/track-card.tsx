@@ -85,7 +85,7 @@ export function TrackCard({
           size="icon"
           className={cn(
             "h-8 w-8", 
-            isLiked ? "text-coral-500" : "text-muted-foreground"
+            isLiked ? "text-sonar-coral-500" : "text-muted-foreground"
           )}
           onClick={toggleLike}
         >
@@ -119,7 +119,7 @@ export function TrackCard({
           <Button
             variant="default"
             size="icon"
-            className="absolute right-4 top-4 h-10 w-10 rounded-full bg-coral-500 hover:bg-coral-600 text-white opacity-0 transition-opacity group-hover:opacity-100"
+            className="absolute right-4 top-4 h-10 w-10 rounded-full bg-sonar-coral-500 hover:bg-sonar-coral-600 text-white opacity-0 transition-opacity group-hover:opacity-100"
             onClick={handlePlayPause}
           >
             {isCurrentTrack && isPlaying ? (
@@ -137,7 +137,7 @@ export function TrackCard({
               size="icon"
               className={cn(
                 "h-8 w-8", 
-                isLiked ? "text-coral-500" : "text-muted-foreground"
+                isLiked ? "text-sonar-coral-500" : "text-muted-foreground"
               )}
               onClick={toggleLike}
             >
@@ -170,7 +170,7 @@ export function TrackCard({
     <div
       className={cn(
         "rounded-md overflow-hidden border border-border bg-card group transition-all hover:shadow-md",
-        isCurrentTrack && "ring-1 ring-coral-500",
+        isCurrentTrack && "ring-1 ring-sonar-coral-500",
         className
       )}
       onMouseEnter={() => setIsHovered(true)}
@@ -209,7 +209,7 @@ export function TrackCard({
           size="icon"
           className={cn(
             "h-8 w-8", 
-            isLiked ? "text-coral-500" : "text-muted-foreground"
+            isLiked ? "text-sonar-coral-500" : "text-muted-foreground"
           )}
           onClick={toggleLike}
         >

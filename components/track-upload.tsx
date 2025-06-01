@@ -148,8 +148,8 @@ export function TrackUpload({ userId, onSuccess, className }: TrackUploadProps) 
             <Label htmlFor="audio-file">Audio File</Label>
             <div 
               className={cn(
-                "border-2 border-dashed rounded-md p-6 flex flex-col items-center justify-center cursor-pointer transition-colors",
-                audioFile ? "border-coral-500 bg-coral-50/50" : "border-border hover:border-muted-foreground/50"
+                "border-2 border-dashed rounded-lg p-8 text-center transition-colors cursor-pointer",
+                audioFile ? "border-sonar-coral-500 bg-sonar-coral-100/50" : "border-border hover:border-muted-foreground/50"
               )}
               onClick={() => audioInputRef.current?.click()}
             >
@@ -164,7 +164,7 @@ export function TrackUpload({ userId, onSuccess, className }: TrackUploadProps) 
               
               {audioFile ? (
                 <div className="flex flex-col items-center gap-2 text-center">
-                  <Music className="h-8 w-8 text-coral-500" />
+                  <Music className="h-8 w-8 text-sonar-coral-500" />
                   <div className="font-medium">{audioFile.name}</div>
                   <div className="text-sm text-muted-foreground">
                     {(audioFile.size / (1024 * 1024)).toFixed(2)} MB
@@ -199,8 +199,8 @@ export function TrackUpload({ userId, onSuccess, className }: TrackUploadProps) 
             <Label htmlFor="cover-image">Cover Image (Optional)</Label>
             <div 
               className={cn(
-                "border-2 border-dashed rounded-md p-6 flex flex-col items-center justify-center cursor-pointer transition-colors",
-                coverFile ? "border-coral-500 bg-coral-50/50" : "border-border hover:border-muted-foreground/50",
+                "border-2 border-dashed rounded-lg p-8 text-center transition-colors cursor-pointer",
+                coverFile ? "border-sonar-coral-500 bg-sonar-coral-100/50" : "border-border hover:border-muted-foreground/50",
                 "h-48"
               )}
               onClick={() => coverInputRef.current?.click()}
@@ -290,7 +290,7 @@ export function TrackUpload({ userId, onSuccess, className }: TrackUploadProps) 
           type="submit" 
           onClick={handleSubmit}
           disabled={isUploading || !audioFile}
-          className="bg-coral-500 hover:bg-coral-600"
+          className="bg-sonar-coral-500 hover:bg-sonar-coral-600"
         >
           {isUploading ? (
             <>
