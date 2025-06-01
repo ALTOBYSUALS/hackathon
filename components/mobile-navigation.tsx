@@ -128,7 +128,7 @@ export function MobileNavigation() {
                   <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm overflow-hidden">
                       <Image 
-                        src="/music-base-logo.png" 
+                        src="/coral-logo.png" 
                         alt="MUSIC BASE Logo" 
                         width={32} 
                         height={32}
@@ -154,7 +154,7 @@ export function MobileNavigation() {
                 <div className="p-6 border-b border-border">
                   <div className="flex items-center gap-4">
                     <Avatar className="h-14 w-14 border-2 border-coral-200">
-                      <AvatarImage src="/abstract-geometric-shapes.png" alt="Usuario" />
+                      <AvatarImage src="/coral-logo.png" alt="Usuario" />
                       <AvatarFallback className="bg-coral-600 text-white text-lg font-semibold">DA</AvatarFallback>
                     </Avatar>
                     <div className="flex flex-col">
@@ -239,7 +239,7 @@ export function MobileNavigation() {
           <Link href="/" className="flex items-center gap-2" onClick={handleLinkClick}>
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white overflow-hidden">
               <Image 
-                src="/music-base-logo.png" 
+                src="/coral-logo.png" 
                 alt="MUSIC BASE Logo" 
                 width={28} 
                 height={28}
