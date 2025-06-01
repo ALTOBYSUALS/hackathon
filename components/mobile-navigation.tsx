@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { usePathname } from "next/navigation"
 import {
   Home,
@@ -109,7 +110,7 @@ export function MobileNavigation() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-10 w-10 hover:bg-purple-50 hover:text-purple-600"
+                className="h-10 w-10 hover:bg-coral-50 hover:text-coral-600"
                 onClick={() => setIsOpen(true)}
               >
                 <Menu className="h-6 w-6" />
@@ -123,14 +124,20 @@ export function MobileNavigation() {
             >
               <div className="flex flex-col h-full">
                 {/* Header del menú */}
-                <div className="flex items-center justify-between p-6 border-b border-border bg-gradient-to-r from-purple-600 to-pink-600">
+                <div className="flex items-center justify-between p-6 border-b border-border bg-gradient-to-r from-coral-500 to-coral-400">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm">
-                      <Music2 className="h-5 w-5 text-white" />
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm overflow-hidden">
+                      <Image 
+                        src="/music-base-logo.png" 
+                        alt="MUSIC BASE Logo" 
+                        width={32} 
+                        height={32}
+                        className="object-contain"
+                      />
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-xl font-bold text-white">music base</span>
-                      <span className="text-xs text-white/80">Music Platform</span>
+                      <span className="text-xl font-bold text-white">MUSIC BASE</span>
+                      <span className="text-xs text-white/80">Neodistro Platform</span>
                     </div>
                   </div>
                   <Button
@@ -146,14 +153,14 @@ export function MobileNavigation() {
                 {/* Perfil del usuario */}
                 <div className="p-6 border-b border-border">
                   <div className="flex items-center gap-4">
-                    <Avatar className="h-14 w-14 border-2 border-purple-200">
+                    <Avatar className="h-14 w-14 border-2 border-coral-200">
                       <AvatarImage src="/abstract-geometric-shapes.png" alt="Usuario" />
-                      <AvatarFallback className="bg-purple-600 text-white text-lg font-semibold">DA</AvatarFallback>
+                      <AvatarFallback className="bg-coral-600 text-white text-lg font-semibold">DA</AvatarFallback>
                     </Avatar>
                     <div className="flex flex-col">
                       <span className="font-semibold text-lg">Demo Artist</span>
                       <span className="text-sm text-muted-foreground">Cuenta Pro</span>
-                      <Badge className="mt-1 w-fit bg-purple-100 text-purple-700 hover:bg-purple-200">Verificado</Badge>
+                      <Badge className="mt-1 w-fit bg-coral-100 text-coral-700 hover:bg-coral-200">Verificado</Badge>
                     </div>
                   </div>
                 </div>
@@ -174,7 +181,7 @@ export function MobileNavigation() {
                               className={cn(
                                 "flex items-center justify-between rounded-lg px-3 py-3 text-sm font-medium transition-all duration-200",
                                 isActive(item.href)
-                                  ? "bg-purple-600 text-white shadow-md"
+                                  ? "bg-coral-600 text-white shadow-md"
                                   : "hover:bg-muted text-foreground hover:text-foreground",
                               )}
                               onClick={handleLinkClick}
@@ -206,7 +213,7 @@ export function MobileNavigation() {
                       className={cn(
                         "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
                         isActive(item.href)
-                          ? "bg-purple-600 text-white"
+                          ? "bg-coral-600 text-white"
                           : "hover:bg-muted text-muted-foreground hover:text-foreground",
                       )}
                       onClick={handleLinkClick}
@@ -230,23 +237,29 @@ export function MobileNavigation() {
           </Sheet>
 
           <Link href="/" className="flex items-center gap-2" onClick={handleLinkClick}>
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-r from-purple-600 to-pink-600">
-              <Music2 className="h-5 w-5 text-white" />
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white overflow-hidden">
+              <Image 
+                src="/music-base-logo.png" 
+                alt="MUSIC BASE Logo" 
+                width={28} 
+                height={28}
+                className="object-contain"
+              />
             </div>
-            <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600">
-              music base
+            <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-coral-500 to-coral-400">
+              MUSIC BASE
             </span>
           </Link>
         </div>
 
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" className="h-10 w-10 hover:bg-purple-50 hover:text-purple-600">
+          <Button variant="ghost" size="icon" className="h-10 w-10 hover:bg-coral-50 hover:text-coral-600">
             <Search className="h-5 w-5" />
             <span className="sr-only">Buscar</span>
           </Button>
-          <Button variant="ghost" size="icon" className="h-10 w-10 relative hover:bg-purple-50 hover:text-purple-600">
+          <Button variant="ghost" size="icon" className="h-10 w-10 relative hover:bg-coral-50 hover:text-coral-600">
             <Bell className="h-5 w-5" />
-            <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-purple-600 text-[10px] text-white font-medium">
+            <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-coral-600 text-[10px] text-white font-medium">
               3
             </span>
             <span className="sr-only">Notificaciones</span>

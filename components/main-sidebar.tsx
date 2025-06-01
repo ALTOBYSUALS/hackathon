@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { usePathname } from "next/navigation"
 import {
   BarChart3,
@@ -67,17 +68,29 @@ export function MainSidebar() {
       <div className="flex h-16 items-center justify-between border-b px-4">
         {expanded ? (
           <Link href="/" className="flex items-center gap-2 font-semibold">
-            <div className="h-8 w-8 rounded-md bg-brand flex items-center justify-center text-white font-bold">
-              <Music2 className="h-4 w-4" />
+            <div className="h-8 w-8 rounded-md overflow-hidden bg-white flex items-center justify-center">
+              <Image 
+                src="/music-base-logo.png" 
+                alt="MUSIC BASE Logo" 
+                width={32} 
+                height={32}
+                className="object-contain"
+              />
             </div>
-            <span className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-brand to-brand-light">
-              music base
+            <span className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-coral-500 to-coral-400">
+              MUSIC BASE
             </span>
           </Link>
         ) : (
           <Link href="/" className="mx-auto">
-            <div className="h-8 w-8 rounded-md bg-brand flex items-center justify-center text-white font-bold">
-              <Music2 className="h-4 w-4" />
+            <div className="h-8 w-8 rounded-md overflow-hidden bg-white flex items-center justify-center">
+              <Image 
+                src="/music-base-logo.png" 
+                alt="MUSIC BASE Logo" 
+                width={32} 
+                height={32}
+                className="object-contain"
+              />
             </div>
           </Link>
         )}

@@ -1,0 +1,26 @@
+{
+  "name": "MUSIC BASE - Neodistro Platform",
+  "short_name": "MUSIC BASE",
+  "description": "The future of music distribution with Web3 technology",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#f47560",
+  "icons": [
+    {
+      "src": "/music-base-logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "16x16 32x32",
+      "type": "image/x-icon"
+    }
+  ],
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["music", "entertainment", "business"]
+} 
