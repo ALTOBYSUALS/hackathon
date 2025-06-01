@@ -7,9 +7,9 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Heart, MessageCircle, Share2, Diamond, Link2, Calendar, MapPin, ExternalLink } from "lucide-react"
 import Image from "next/image"
 
-export default function UserProfilePage({ params }) {
-  // En una implementación real, obtendríamos los datos del usuario basados en el username
-  const username = params.username
+export default async function UserProfilePage({ params }) {
+  // En Next.js 15, los params deben ser awaited
+  const { username } = await params
   const user = {
     name: "Luna Waves",
     username: "lunawaves",

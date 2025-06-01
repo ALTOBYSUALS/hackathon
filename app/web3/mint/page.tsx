@@ -1,9 +1,9 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowLeft, Check, Info, Upload } from "lucide-react"
+import { ArrowLeft, Check, Info, Upload, Wallet, AlertCircle, Sparkles, Music, DollarSign, Shield } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -16,15 +16,20 @@ import { Switch } from "@/components/ui/switch"
 import { Textarea } from "@/components/ui/textarea"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { Separator } from "@/components/ui/separator"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { Badge } from "@/components/ui/badge"
+import { Progress } from "@/components/ui/progress"
 
 export default function MintNFT() {
   const [selectedRelease, setSelectedRelease] = useState("")
   const [nftTitle, setNftTitle] = useState("")
   const [nftDescription, setNftDescription] = useState("")
-  const [supplyType, setSupplyType] = useState("unique")
-  const [supplyAmount, setSupplyAmount] = useState(10)
-  const [mintPrice, setMintPrice] = useState("5")
-  const [royaltyPercentage, setRoyaltyPercentage] = useState(10)
+  const [royaltyPercentageToTokenize, setRoyaltyPercentageToTokenize] = useState([25])
+  const [royaltyCoinSupply, setRoyaltyCoinSupply] = useState(10000)
+  const [suggestedPrice, setSuggestedPrice] = useState("0.10")
+  const [walletConnected, setWalletConnected] = useState(false)
+  const [currentStep, setCurrentStep] = useState(1)
+  const [mintingInProgress, setMintingInProgress] = useState(false)
   const [useExistingRelease, setUseExistingRelease] = useState(true)
 
   // Sample data for existing releases
@@ -35,24 +40,76 @@ export default function MintNFT() {
       artist: "Your Artist Name",
       coverArt: "/electronic-album-cover.png",
       type: "Single",
+      streams: 125000,
+      monthlyGrowth: 15,
+      estimatedRevenue: "$3,200",
+      isTokenized: false,
+      ipfsHash: "QmX7Y8Z9...",
     },
     {
-      id: "2",
+      id: "2", 
       title: "Urban Vibes",
       artist: "Your Artist Name ft. MC Flow",
       coverArt: "/hip-hop-album-cover.png",
       type: "EP",
+      streams: 89000,
+      monthlyGrowth: 8,
+      estimatedRevenue: "$2,100",
+      isTokenized: false,
+      ipfsHash: "QmA1B2C3...",
     },
     {
       id: "3",
       title: "Acoustic Sessions",
       artist: "Your Artist Name",
-      coverArt: "/indie-album-cover.png",
+      coverArt: "/indie-album-cover.png", 
       type: "Album",
+      streams: 45000,
+      monthlyGrowth: 22,
+      estimatedRevenue: "$1,800",
+      isTokenized: true,
+      ipfsHash: "QmD4E5F6...",
     },
   ]
 
   const selectedReleaseData = releases.find((release) => release.id === selectedRelease)
+
+  // AI-powered suggestions based on selected release
+  useEffect(() => {
+    if (selectedReleaseData) {
+      setNftTitle(`${selectedReleaseData.title} - SongNFT`)
+      setNftDescription(`Exclusive ownership NFT for "${selectedReleaseData.title}". Holders of this SongNFT can participate in future RoyaltyCoin distributions and receive transparent royalty payments directly to their wallet.`)
+      
+      // AI suggestion for price based on performance
+      const basePrice = selectedReleaseData.streams > 100000 ? 0.15 : 
+                       selectedReleaseData.streams > 50000 ? 0.10 : 0.05
+      const growthMultiplier = 1 + (selectedReleaseData.monthlyGrowth / 100)
+      setSuggestedPrice((basePrice * growthMultiplier).toFixed(3))
+    }
+  }, [selectedReleaseData])
+
+  const connectWallet = () => {
+    // Simulamos conexión a MetaMask/Talisman para Moonbeam
+    setWalletConnected(true)
+  }
+
+  const handleMintNFT = async () => {
+    if (!selectedReleaseData || !walletConnected) return
+    
+    setMintingInProgress(true)
+    setCurrentStep(2)
+    
+    // Simulamos el proceso de minting
+    setTimeout(() => {
+      setCurrentStep(3)
+      setTimeout(() => {
+        setCurrentStep(4)
+        setMintingInProgress(false)
+      }, 2000)
+    }, 3000)
+  }
+
+  const availableReleases = releases.filter(release => !release.isTokenized)
 
   return (
     <div className="space-y-6">
@@ -62,104 +119,97 @@ export default function MintNFT() {
             <ArrowLeft className="h-4 w-4" />
           </Link>
         </Button>
-        <h1 className="text-3xl font-bold">Mint Music NFT</h1>
+        <div>
+          <h1 className="text-3xl font-bold">Tokenize Your Music</h1>
+          <p className="text-muted-foreground">Create SongNFT + RoyaltyCoin on Polkadot</p>
+        </div>
       </div>
+
+      {/* Progress Steps */}
+      <Card className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 border-blue-200/20">
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between">
+            {[
+              { step: 1, title: "Select Music", icon: Music },
+              { step: 2, title: "Smart Contract Deploy", icon: Sparkles },
+              { step: 3, title: "SongVault Setup", icon: Shield },
+              { step: 4, title: "Ready to Trade", icon: DollarSign },
+            ].map(({ step, title, icon: Icon }) => (
+              <div key={step} className="flex flex-col items-center">
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                  currentStep >= step ? 'bg-blue-500 text-white' : 'bg-muted text-muted-foreground'
+                }`}>
+                  {currentStep > step ? <Check className="h-5 w-5" /> : <Icon className="h-5 w-5" />}
+                </div>
+                <span className="text-sm mt-2">{title}</span>
+              </div>
+            ))}
+          </div>
+          {mintingInProgress && (
+            <div className="mt-4">
+              <Progress value={(currentStep - 1) * 33} className="h-2" />
+              <p className="text-sm text-muted-foreground mt-2">Creating your music assets on Polkadot...</p>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {!walletConnected && (
+        <Alert>
+          <Wallet className="h-4 w-4" />
+          <AlertTitle>Connect Polkadot Wallet</AlertTitle>
+          <AlertDescription className="flex items-center justify-between">
+            <span>Connect MetaMask or Talisman to Moonbeam network to continue</span>
+            <Button onClick={connectWallet} size="sm" className="bg-blue-500 hover:bg-blue-600">
+              Connect Wallet
+            </Button>
+          </AlertDescription>
+        </Alert>
+      )}
 
       <div className="grid gap-6 md:grid-cols-3">
         <div className="md:col-span-2 space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>NFT Source</CardTitle>
-              <CardDescription>Choose the music content for your NFT</CardDescription>
+              <CardTitle className="flex items-center gap-2">
+                <Music className="h-5 w-5 text-blue-500" />
+                Select Music to Tokenize
+              </CardTitle>
+              <CardDescription>Choose a song from your catalog to create SongNFT + RoyaltyCoin</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="flex items-center space-x-2">
-                <Switch id="use-existing" checked={useExistingRelease} onCheckedChange={setUseExistingRelease} />
-                <Label htmlFor="use-existing">Use existing release from My Music</Label>
-              </div>
+              <Select value={selectedRelease} onValueChange={setSelectedRelease}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select an untokenized release" />
+                </SelectTrigger>
+                <SelectContent>
+                  {availableReleases.map((release) => (
+                    <SelectItem key={release.id} value={release.id}>
+                      {release.title} ({release.type}) - {release.streams.toLocaleString()} streams
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
 
-              {useExistingRelease ? (
-                <div className="space-y-4">
-                  <Select value={selectedRelease} onValueChange={setSelectedRelease}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select a release" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {releases.map((release) => (
-                        <SelectItem key={release.id} value={release.id}>
-                          {release.title} ({release.type})
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-
-                  {selectedRelease && (
-                    <div className="flex items-center gap-4 p-4 border rounded-md bg-muted/20">
-                      <Image
-                        src={selectedReleaseData?.coverArt || "/placeholder.svg"}
-                        alt={selectedReleaseData?.title || "Release cover"}
-                        width={80}
-                        height={80}
-                        className="rounded-md object-cover"
-                      />
-                      <div>
-                        <h3 className="font-medium">{selectedReleaseData?.title}</h3>
-                        <p className="text-sm text-muted-foreground">{selectedReleaseData?.artist}</p>
-                        <p className="text-sm text-muted-foreground">{selectedReleaseData?.type}</p>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  <div className="grid gap-4 md:grid-cols-2">
-                    <div>
-                      <Label htmlFor="audio-file">Audio File</Label>
-                      <div className="mt-1 flex items-center justify-center border border-dashed rounded-md h-32">
-                        <div className="text-center">
-                          <Upload className="mx-auto h-8 w-8 text-muted-foreground" />
-                          <div className="mt-2 flex text-sm">
-                            <label
-                              htmlFor="audio-file-upload"
-                              className="relative cursor-pointer rounded-md font-medium text-brand hover:text-brand-dark"
-                            >
-                              <span>Upload audio file</span>
-                              <input
-                                id="audio-file-upload"
-                                name="audio-file-upload"
-                                type="file"
-                                className="sr-only"
-                                accept="audio/*"
-                              />
-                            </label>
-                          </div>
-                          <p className="text-xs text-muted-foreground">WAV, MP3, or FLAC up to 50MB</p>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div>
-                      <Label htmlFor="cover-art">Cover Art</Label>
-                      <div className="mt-1 flex items-center justify-center border border-dashed rounded-md h-32">
-                        <div className="text-center">
-                          <Upload className="mx-auto h-8 w-8 text-muted-foreground" />
-                          <div className="mt-2 flex text-sm">
-                            <label
-                              htmlFor="cover-art-upload"
-                              className="relative cursor-pointer rounded-md font-medium text-brand hover:text-brand-dark"
-                            >
-                              <span>Upload image</span>
-                              <input
-                                id="cover-art-upload"
-                                name="cover-art-upload"
-                                type="file"
-                                className="sr-only"
-                                accept="image/*"
-                              />
-                            </label>
-                          </div>
-                          <p className="text-xs text-muted-foreground">PNG, JPG, or GIF up to 10MB</p>
-                        </div>
+              {selectedRelease && (
+                <div className="p-4 border rounded-md bg-gradient-to-r from-blue-500/5 to-purple-500/5">
+                  <div className="flex items-center gap-4">
+                    <Image
+                      src={selectedReleaseData?.coverArt || "/placeholder.svg"}
+                      alt={selectedReleaseData?.title || "Release cover"}
+                      width={80}
+                      height={80}
+                      className="rounded-md object-cover"
+                    />
+                    <div className="flex-1">
+                      <h3 className="font-medium">{selectedReleaseData?.title}</h3>
+                      <p className="text-sm text-muted-foreground">{selectedReleaseData?.artist}</p>
+                      <div className="flex gap-4 mt-2">
+                        <Badge variant="outline">{selectedReleaseData?.streams.toLocaleString()} streams</Badge>
+                        <Badge variant="outline" className="text-green-600 border-green-200">
+                          +{selectedReleaseData?.monthlyGrowth}% growth
+                        </Badge>
+                        <Badge variant="outline">{selectedReleaseData?.estimatedRevenue} est. revenue</Badge>
                       </div>
                     </div>
                   </div>
@@ -170,12 +220,74 @@ export default function MintNFT() {
 
           <Card>
             <CardHeader>
-              <CardTitle>NFT Details</CardTitle>
-              <CardDescription>Configure the details of your music NFT</CardDescription>
+              <CardTitle className="flex items-center gap-2">
+                <DollarSign className="h-5 w-5 text-green-500" />
+                Tokenization Configuration
+              </CardTitle>
+              <CardDescription>Configure how much of your royalties to tokenize</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-6">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <Label>Percentage of Royalties to Tokenize</Label>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <Info className="h-4 w-4 text-muted-foreground" />
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>This percentage of your net royalties will be distributed to RoyaltyCoin holders</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
+                <div className="space-y-2">
+                  <Slider
+                    value={royaltyPercentageToTokenize}
+                    onValueChange={setRoyaltyPercentageToTokenize}
+                    max={50}
+                    min={10}
+                    step={5}
+                    className="w-full"
+                  />
+                  <div className="flex justify-between text-sm text-muted-foreground">
+                    <span>10% (Conservative)</span>
+                    <span className="font-medium text-foreground">{royaltyPercentageToTokenize[0]}%</span>
+                    <span>50% (Aggressive)</span>
+                  </div>
+                </div>
+              </div>
+
+              <Separator />
+
+              <div className="grid gap-4 md:grid-cols-2">
+                <div className="space-y-2">
+                  <Label>RoyaltyCoin Supply</Label>
+                  <Input
+                    type="number"
+                    value={royaltyCoinSupply}
+                    onChange={(e) => setRoyaltyCoinSupply(Number(e.target.value))}
+                    placeholder="10000"
+                  />
+                  <p className="text-xs text-muted-foreground">Total RoyaltyCoins that will be minted</p>
+                </div>
+
+                <div className="space-y-2">
+                  <Label>AI Suggested Initial Price</Label>
+                  <div className="flex items-center gap-2">
+                    <Input
+                      value={suggestedPrice}
+                      onChange={(e) => setSuggestedPrice(e.target.value)}
+                      placeholder="0.10"
+                    />
+                    <span className="text-sm text-muted-foreground">USDC</span>
+                  </div>
+                  <p className="text-xs text-muted-foreground">Based on streams and growth metrics</p>
+                </div>
+              </div>
+
               <div className="space-y-2">
-                <Label htmlFor="nft-title">NFT Title</Label>
+                <Label htmlFor="nft-title">SongNFT Title</Label>
                 <Input
                   id="nft-title"
                   placeholder="Enter NFT title"
@@ -185,251 +297,89 @@ export default function MintNFT() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="nft-description">Description</Label>
+                <Label htmlFor="nft-description">SongNFT Description</Label>
                 <Textarea
                   id="nft-description"
-                  placeholder="Describe your NFT, its uniqueness, and what buyers will receive"
+                  placeholder="Describe the NFT and what holders receive"
                   value={nftDescription}
                   onChange={(e) => setNftDescription(e.target.value)}
-                  rows={4}
+                  rows={3}
                 />
-              </div>
-
-              <div className="grid gap-4 md:grid-cols-2">
-                <div className="space-y-2">
-                  <Label>Genre</Label>
-                  <Select>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select genre" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="electronic">Electronic</SelectItem>
-                      <SelectItem value="hip-hop">Hip-Hop</SelectItem>
-                      <SelectItem value="pop">Pop</SelectItem>
-                      <SelectItem value="rock">Rock</SelectItem>
-                      <SelectItem value="indie">Indie</SelectItem>
-                      <SelectItem value="classical">Classical</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <Label>Exclusivity</Label>
-                  <Select>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select exclusivity" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="standard">Standard (Streaming Available)</SelectItem>
-                      <SelectItem value="exclusive">Exclusive (NFT Holders Only)</SelectItem>
-                      <SelectItem value="limited">Limited (Early Access)</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <Label>Supply Type</Label>
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <Info className="h-4 w-4 text-muted-foreground" />
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p className="max-w-xs text-xs">
-                          Unique: One-of-a-kind NFT (1/1)
-                          <br />
-                          Limited: Fixed number of identical NFTs
-                          <br />
-                          Open: Unlimited supply until mint end date
-                        </p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </div>
-                <RadioGroup value={supplyType} onValueChange={setSupplyType} className="flex gap-4">
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="unique" id="unique" />
-                    <Label htmlFor="unique">Unique (1/1)</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="limited" id="limited" />
-                    <Label htmlFor="limited">Limited Edition</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="open" id="open" />
-                    <Label htmlFor="open">Open Edition</Label>
-                  </div>
-                </RadioGroup>
-              </div>
-
-              {supplyType === "limited" && (
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <Label>Edition Size: {supplyAmount}</Label>
-                    <span className="text-sm text-muted-foreground">{supplyAmount} NFTs</span>
-                  </div>
-                  <Slider
-                    value={[supplyAmount]}
-                    min={2}
-                    max={1000}
-                    step={1}
-                    onValueChange={(value) => setSupplyAmount(value[0])}
-                  />
-                </div>
-              )}
-
-              {supplyType === "open" && (
-                <div className="space-y-2">
-                  <Label>Mint End Date</Label>
-                  <Input type="date" min={new Date().toISOString().split("T")[0]} />
-                </div>
-              )}
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Pricing & Royalties</CardTitle>
-              <CardDescription>Set the price and royalty terms for your NFT</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid gap-4 md:grid-cols-2">
-                <div className="space-y-2">
-                  <Label htmlFor="mint-price">Mint Price (SUI)</Label>
-                  <div className="flex items-center">
-                    <Input
-                      id="mint-price"
-                      type="number"
-                      min="0"
-                      step="0.1"
-                      value={mintPrice}
-                      onChange={(e) => setMintPrice(e.target.value)}
-                    />
-                    <Select defaultValue="sui">
-                      <SelectTrigger className="w-[110px] ml-2">
-                        <SelectValue placeholder="Currency" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="sui">SUI</SelectItem>
-                        <SelectItem value="usdc">USDC</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <p className="text-xs text-muted-foreground">
-                    Estimated value: ${(Number.parseFloat(mintPrice || "0") * 1.25).toFixed(2)} USD
-                  </p>
-                </div>
-
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <Label>Secondary Market Royalty: {royaltyPercentage}%</Label>
-                    <span className="text-sm text-muted-foreground">{royaltyPercentage}%</span>
-                  </div>
-                  <Slider
-                    value={[royaltyPercentage]}
-                    min={0}
-                    max={15}
-                    step={0.5}
-                    onValueChange={(value) => setRoyaltyPercentage(value[0])}
-                  />
-                  <p className="text-xs text-muted-foreground">
-                    You'll receive {royaltyPercentage}% of the sale price for all secondary market sales
-                  </p>
-                </div>
-              </div>
-
-              <div className="rounded-md border p-4 bg-muted/20">
-                <div className="flex items-center gap-2">
-                  <Check className="h-5 w-5 text-green-500" />
-                  <span className="font-medium">Royalty Enforcement</span>
-                </div>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  SUI's royalty protocol ensures that creators receive their specified royalty percentage on all
-                  secondary sales across supported marketplaces.
-                </p>
               </div>
             </CardContent>
           </Card>
         </div>
 
-        <div className="md:col-span-1 space-y-6">
-          <Card className="sticky top-6">
+        {/* Summary Panel */}
+        <div className="space-y-6">
+          <Card className="sticky top-4">
             <CardHeader>
-              <CardTitle>NFT Preview</CardTitle>
-              <CardDescription>How your NFT will appear on marketplaces</CardDescription>
+              <CardTitle className="text-lg">Tokenization Summary</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="rounded-lg overflow-hidden border">
-                <div className="aspect-square bg-muted relative">
-                  {selectedReleaseData ? (
-                    <Image
-                      src={selectedReleaseData.coverArt || "/placeholder.svg"}
-                      alt={selectedReleaseData.title}
-                      fill
-                      className="object-cover"
-                    />
-                  ) : (
-                    <div className="flex h-full items-center justify-center bg-muted">
-                      <span className="text-muted-foreground">Cover Art Preview</span>
+              {selectedReleaseData ? (
+                <>
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <span>Song:</span>
+                      <span className="font-medium">{selectedReleaseData.title}</span>
                     </div>
+                    <div className="flex justify-between text-sm">
+                      <span>Royalty %:</span>
+                      <span className="font-medium">{royaltyPercentageToTokenize[0]}%</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span>RoyaltyCoins:</span>
+                      <span className="font-medium">{royaltyCoinSupply.toLocaleString()}</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span>Initial Price:</span>
+                      <span className="font-medium">{suggestedPrice} USDC</span>
+                    </div>
+                  </div>
+
+                  <Separator />
+
+                  <div className="space-y-2">
+                    <h4 className="font-medium text-sm">What will be created:</h4>
+                    <div className="space-y-1 text-sm">
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                        <span>SongNFT (ERC-721)</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                        <span>RoyaltyCoin (ERC-20)</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+                        <span>SongVault Contract</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <Button 
+                    className="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600"
+                    onClick={handleMintNFT}
+                    disabled={!walletConnected || mintingInProgress}
+                  >
+                    {mintingInProgress ? "Creating Assets..." : "Tokenize Music"}
+                  </Button>
+
+                  {currentStep === 4 && (
+                    <Alert className="bg-green-50 border-green-200">
+                      <Check className="h-4 w-4 text-green-600" />
+                      <AlertTitle className="text-green-800">Success!</AlertTitle>
+                      <AlertDescription className="text-green-700">
+                        Your music has been tokenized on Polkadot. Check Web3 > Manage NFTs to view your assets.
+                      </AlertDescription>
+                    </Alert>
                   )}
-                </div>
-                <div className="p-4 bg-background">
-                  <h3 className="font-medium">
-                    {nftTitle || (selectedReleaseData ? selectedReleaseData.title : "NFT Title")}
-                  </h3>
-                  <p className="text-sm text-muted-foreground">
-                    {selectedReleaseData ? selectedReleaseData.artist : "Artist Name"}
-                  </p>
-                  <div className="mt-2 flex items-center justify-between">
-                    <span className="text-xs bg-muted px-2 py-1 rounded-full">
-                      {supplyType === "unique"
-                        ? "Unique 1/1"
-                        : supplyType === "limited"
-                          ? `Limited Edition (${supplyAmount})`
-                          : "Open Edition"}
-                    </span>
-                    <span className="text-sm font-medium">{mintPrice || "0"} SUI</span>
-                  </div>
-                </div>
-              </div>
-
-              <Separator />
-
-              <div className="space-y-2">
-                <h3 className="text-sm font-medium">Estimated Fees</h3>
-                <div className="space-y-1 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Gas Fee (estimated)</span>
-                    <span>0.01 SUI</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Platform Fee (2.5%)</span>
-                    <span>{((Number.parseFloat(mintPrice || "0") * 2.5) / 100).toFixed(2)} SUI</span>
-                  </div>
-                  <Separator className="my-2" />
-                  <div className="flex justify-between font-medium">
-                    <span>You Receive (per NFT)</span>
-                    <span>
-                      {(
-                        Number.parseFloat(mintPrice || "0") -
-                        (Number.parseFloat(mintPrice || "0") * 2.5) / 100 -
-                        0.01
-                      ).toFixed(2)}{" "}
-                      SUI
-                    </span>
-                  </div>
-                </div>
-              </div>
+                </>
+              ) : (
+                <p className="text-sm text-muted-foreground">Select a release to see tokenization summary</p>
+              )}
             </CardContent>
-            <CardFooter className="flex flex-col gap-2">
-              <Button className="w-full bg-brand hover:bg-brand-dark text-white">Mint NFT on SUI Network</Button>
-              <Button variant="outline" className="w-full" asChild>
-                <Link href="/web3">Cancel</Link>
-              </Button>
-            </CardFooter>
           </Card>
         </div>
       </div>
