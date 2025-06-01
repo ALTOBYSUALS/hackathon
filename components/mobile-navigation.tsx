@@ -32,7 +32,6 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
-import { SonarLogo } from "@/components/sonar-logo"
 
 export function MobileNavigation() {
   const pathname = usePathname()

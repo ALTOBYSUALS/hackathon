@@ -66,7 +66,6 @@ import {
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from "@/components/ui/sheet"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { useMobile } from "@/hooks/use-mobile"
-import { SonarLogo } from "@/components/sonar-logo"
 
 export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
@@ -337,7 +336,7 @@ export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
               variant="ghost"
               size="icon"
               onClick={() => setExpanded(!expanded)}
-              className={cn("h-8 w-8", !expanded && "absolute right-3")}
+              className="h-8 w-8 flex-shrink-0"
             >
               <Menu className="h-5 w-5" />
             </Button>

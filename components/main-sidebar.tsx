@@ -27,7 +27,6 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { useState } from "react"
-import { SonarLogo } from "@/components/sonar-logo"
 
 export function MainSidebar() {
   const pathname = usePathname()
@@ -83,7 +82,7 @@ export function MainSidebar() {
             </span>
           </Link>
         ) : (
-          <Link href="/" className="mx-auto">
+          <Link href="/" className="flex-1 flex justify-center">
             <div className="h-8 w-8 rounded-md overflow-hidden flex items-center justify-center">
               <Image 
                 src="/sonar-icon.png" 
@@ -99,7 +98,7 @@ export function MainSidebar() {
           variant="ghost"
           size="icon"
           onClick={() => setExpanded(!expanded)}
-          className={cn("h-8 w-8", !expanded && "mx-auto")}
+          className="h-8 w-8 flex-shrink-0"
         >
           <Menu className="h-5 w-5" />
           <span className="sr-only">Toggle sidebar</span>
