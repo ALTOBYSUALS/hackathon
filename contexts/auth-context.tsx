@@ -1,6 +1,7 @@
 "use client"
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
+import { signIn, signUp, signOut } from '@/lib/supabase'
 
 interface User {
   id: string
@@ -45,42 +46,70 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = async (email: string, password: string) => {
     setIsLoading(true)
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    
-    // Mock user data - replace with actual API response
-    const userData: User = {
-      id: '1',
-      email,
-      artistName: 'Demo Artist',
-      avatar: '/artist-avatar.png'
+    try {
+      // Use real Supabase authentication
+      const { data, error } = await signIn(email, password)
+      
+      if (error) {
+        throw new Error(error.message || 'Failed to sign in')
+      }
+      
+      if (data.user) {
+        const userData: User = {
+          id: data.user.id,
+          email: data.user.email || email,
+          artistName: (data.user as any).user_metadata?.artistName || 'Artist',
+          avatar: (data.user as any).user_metadata?.avatar || '/artist-avatar.png'
+        }
+        
+        setUser(userData)
+        localStorage.setItem('sonar_user', JSON.stringify(userData))
+      }
+    } catch (error) {
+      console.error('Login error:', error)
+      throw error
+    } finally {
+      setIsLoading(false)
     }
-    
-    setUser(userData)
-    localStorage.setItem('sonar_user', JSON.stringify(userData))
-    setIsLoading(false)
   }
 
   const signup = async (email: string, password: string, artistName: string) => {
     setIsLoading(true)
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    
-    // Mock user data - replace with actual API response
-    const userData: User = {
-      id: '1',
-      email,
-      artistName,
-      avatar: '/artist-avatar.png'
+    try {
+      // Use real Supabase authentication
+      const { data, error } = await signUp(email, password)
+      
+      if (error) {
+        throw new Error(error.message || 'Failed to sign up')
+      }
+      
+      if (data.user) {
+        const userData: User = {
+          id: data.user.id,
+          email: data.user.email || email,
+          artistName,
+          avatar: '/artist-avatar.png'
+        }
+        
+        setUser(userData)
+        localStorage.setItem('sonar_user', JSON.stringify(userData))
+      }
+    } catch (error) {
+      console.error('Signup error:', error)
+      throw error
+    } finally {
+      setIsLoading(false)
     }
-    
-    setUser(userData)
-    localStorage.setItem('sonar_user', JSON.stringify(userData))
-    setIsLoading(false)
   }
 
-  const logout = () => {
+  const logout = async () => {
+    try {
+      await signOut()
+    } catch (error) {
+      console.error('Logout error:', error)
+    }
+    
     setUser(null)
     localStorage.removeItem('sonar_user')
   }
