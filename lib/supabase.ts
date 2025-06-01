@@ -1,17 +1,21 @@
 import { createClient } from '@supabase/supabase-js'
 
+// Valores por defecto para desarrollo/demo
+const DEFAULT_SUPABASE_URL = 'https://demo-project.supabase.co'
+const DEFAULT_SUPABASE_KEY = 'demo-key-placeholder'
+
 if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
-  console.error('Missing NEXT_PUBLIC_SUPABASE_URL')
+  console.warn('NEXT_PUBLIC_SUPABASE_URL not found, using default demo URL')
 }
 
 if (!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-  console.error('Missing NEXT_PUBLIC_SUPABASE_ANON_KEY')
+  console.warn('NEXT_PUBLIC_SUPABASE_ANON_KEY not found, using default demo key')
 }
 
-// Crear el cliente de Supabase
+// Crear el cliente de Supabase con valores por defecto
 export const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+  process.env.NEXT_PUBLIC_SUPABASE_URL || DEFAULT_SUPABASE_URL,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || DEFAULT_SUPABASE_KEY
 )
 
 // Tipos para nuestros datos
@@ -35,8 +39,19 @@ export type User = {
   following: number
 }
 
+// Verificar si estamos en modo demo
+const isDemoMode = () => {
+  return !process.env.NEXT_PUBLIC_SUPABASE_URL || 
+         process.env.NEXT_PUBLIC_SUPABASE_URL === DEFAULT_SUPABASE_URL
+}
+
 // Funciones para interactuar con los datos
 export async function getTracks() {
+  if (isDemoMode()) {
+    console.log('Demo mode: returning empty array for tracks')
+    return []
+  }
+  
   const { data, error } = await supabase
     .from('tracks')
     .select('*')
@@ -52,6 +67,11 @@ export async function getTracks() {
 }
 
 export async function getTrackById(id: string) {
+  if (isDemoMode()) {
+    console.log('Demo mode: returning null for track')
+    return null
+  }
+  
   const { data, error } = await supabase
     .from('tracks')
     .select('*')
@@ -67,6 +87,16 @@ export async function getTrackById(id: string) {
 }
 
 export async function uploadTrack(file: File, metadata: Omit<Track, 'id' | 'audio_url' | 'created_at'>) {
+  if (isDemoMode()) {
+    console.log('Demo mode: simulating track upload')
+    return {
+      id: 'demo-' + Date.now(),
+      audio_url: URL.createObjectURL(file),
+      created_at: new Date().toISOString(),
+      ...metadata
+    } as Track
+  }
+  
   // Generar un nombre único para el archivo
   const fileName = `${Date.now()}-${file.name}`
   
@@ -109,6 +139,11 @@ export async function uploadTrack(file: File, metadata: Omit<Track, 'id' | 'audi
 }
 
 export async function incrementPlays(trackId: string) {
+  if (isDemoMode()) {
+    console.log('Demo mode: simulating play increment')
+    return true
+  }
+  
   // First get the current play count
   const { data: track, error: fetchError } = await supabase
     .from('tracks')
@@ -136,6 +171,11 @@ export async function incrementPlays(trackId: string) {
 }
 
 export async function toggleLike(trackId: string, userId: string) {
+  if (isDemoMode()) {
+    console.log('Demo mode: simulating like toggle')
+    return true
+  }
+  
   const { data, error } = await supabase.rpc('toggle_track_like', {
     track_id: trackId,
     user_id: userId
@@ -151,6 +191,17 @@ export async function toggleLike(trackId: string, userId: string) {
 
 // Autenticación
 export async function signIn(email: string, password: string) {
+  if (isDemoMode()) {
+    console.log('Demo mode: simulating sign in')
+    return { 
+      data: { 
+        user: { id: 'demo-user', email }, 
+        session: { access_token: 'demo-token' } 
+      }, 
+      error: null 
+    }
+  }
+  
   const { data, error } = await supabase.auth.signInWithPassword({
     email,
     password,
@@ -159,6 +210,17 @@ export async function signIn(email: string, password: string) {
 }
 
 export async function signUp(email: string, password: string) {
+  if (isDemoMode()) {
+    console.log('Demo mode: simulating sign up')
+    return { 
+      data: { 
+        user: { id: 'demo-user', email }, 
+        session: { access_token: 'demo-token' } 
+      }, 
+      error: null 
+    }
+  }
+  
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
@@ -167,12 +229,25 @@ export async function signUp(email: string, password: string) {
 }
 
 export async function signOut() {
+  if (isDemoMode()) {
+    console.log('Demo mode: simulating sign out')
+    return { error: null }
+  }
+  
   const { error } = await supabase.auth.signOut();
   return { error };
 }
 
 // Subir un archivo a Supabase Storage
 export async function uploadFile(bucket: string, path: string, file: File) {
+  if (isDemoMode()) {
+    console.log('Demo mode: simulating file upload')
+    return { 
+      data: { path: `demo-${Date.now()}-${file.name}` }, 
+      error: null 
+    }
+  }
+  
   const { data, error } = await supabase.storage
     .from(bucket)
     .upload(path, file, {
@@ -184,12 +259,22 @@ export async function uploadFile(bucket: string, path: string, file: File) {
 
 // Obtener una URL pública de un archivo en Storage
 export function getPublicURL(bucket: string, path: string) {
+  if (isDemoMode()) {
+    console.log('Demo mode: returning demo URL')
+    return `https://demo-storage.example.com/${bucket}/${path}`
+  }
+  
   const { data } = supabase.storage.from(bucket).getPublicUrl(path);
   return data.publicUrl;
 }
 
 // Tracks
 export async function fetchTracks() {
+  if (isDemoMode()) {
+    console.log('Demo mode: returning empty tracks array')
+    return { data: [], error: null }
+  }
+  
   const { data, error } = await supabase
     .from('tracks')
     .select('*')
@@ -198,6 +283,11 @@ export async function fetchTracks() {
 }
 
 export async function fetchTrackById(id: string) {
+  if (isDemoMode()) {
+    console.log('Demo mode: returning null track')
+    return { data: null, error: null }
+  }
+  
   const { data, error } = await supabase
     .from('tracks')
     .select('*')
@@ -207,6 +297,14 @@ export async function fetchTrackById(id: string) {
 }
 
 export async function createTrack(trackData: any) {
+  if (isDemoMode()) {
+    console.log('Demo mode: simulating track creation')
+    return { 
+      data: [{ id: 'demo-' + Date.now(), ...trackData }], 
+      error: null 
+    }
+  }
+  
   const { data, error } = await supabase
     .from('tracks')
     .insert(trackData)
@@ -216,6 +314,11 @@ export async function createTrack(trackData: any) {
 
 // Artistas
 export async function fetchArtists() {
+  if (isDemoMode()) {
+    console.log('Demo mode: returning empty artists array')
+    return { data: [], error: null }
+  }
+  
   const { data, error } = await supabase
     .from('artists')
     .select('*');
@@ -224,6 +327,11 @@ export async function fetchArtists() {
 
 // Verificar si Supabase está conectado
 export async function checkSupabaseConnection() {
+  if (isDemoMode()) {
+    console.log('Demo mode: simulating connection check')
+    return { connected: true, data: { count: 0 } }
+  }
+  
   try {
     const { data, error } = await supabase.from('tracks').select('count', { count: 'exact' });
     
