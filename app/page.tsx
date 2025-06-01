@@ -162,14 +162,14 @@ export default function Dashboard() {
               <CardHeader className="pb-2 px-4 pt-4">
                 <CardTitle className="text-sm font-medium text-muted-foreground flex items-center">
                   <Boxes className="mr-2 h-4 w-4 text-brand-primary" />
-                  NFT Sales
+                  Tokenized Value
                 </CardTitle>
               </CardHeader>
               <CardContent className="px-4 pb-4">
                 <div className="flex flex-col gap-2">
-                  <div className="text-xl md:text-2xl font-bold">45.32</div>
-                  <Badge className="w-fit bg-brand-primary/20 text-brand-primary border-brand-primary/30 text-xs">
-                    ≈ $56.65
+                  <div className="text-xl md:text-2xl font-bold">$3,050</div>
+                  <Badge className="w-fit bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-blue-600 border-blue-200 text-xs">
+                    2 Songs Tokenized
                   </Badge>
                 </div>
               </CardContent>
@@ -480,49 +480,53 @@ export default function Dashboard() {
             </TabsContent>
 
             <TabsContent value="web3" className="space-y-4 mt-0">
-              <Card className="border-brand-primary/20 bg-gradient-to-br from-brand-primary/5 to-brand-secondary/5 backdrop-blur-sm">
+              <Card className="border-blue-200/50 bg-gradient-to-br from-blue-500/10 to-purple-500/10 backdrop-blur-sm">
                 <CardHeader>
                   <CardTitle className="flex items-center text-base md:text-lg">
-                    <Boxes className="mr-2 h-5 w-5 text-brand-primary" />
-                    Web3 Hub
+                    <Boxes className="mr-2 h-5 w-5 text-blue-500" />
+                    Neodistro Web3 Hub
                   </CardTitle>
-                  <CardDescription>Explore the new frontier of music distribution with Web3</CardDescription>
+                  <CardDescription>Your tokenized music portfolio on Polkadot</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="grid gap-6 md:grid-cols-3">
                     <div className="space-y-3">
-                      <div className="h-12 w-12 rounded-lg bg-brand-primary/20 flex items-center justify-center">
-                        <Boxes className="h-6 w-6 text-brand-primary" />
+                      <div className="h-12 w-12 rounded-lg bg-blue-500/20 flex items-center justify-center">
+                        <Music className="h-6 w-6 text-blue-500" />
                       </div>
-                      <h3 className="text-lg font-medium">Music NFTs</h3>
+                      <h3 className="text-lg font-medium">SongNFT</h3>
                       <p className="text-sm text-muted-foreground">
-                        Create unique digital collectibles from your music and build direct relationships with fans.
+                        Create unique ownership tokens for your music on Polkadot blockchain.
                       </p>
-                      <Button className="bg-brand-primary hover:bg-brand-primary/90 text-white">
-                        Mint Your First NFT
+                      <Button className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white">
+                        Tokenize Music
                       </Button>
                     </div>
 
                     <div className="space-y-3 hidden md:block">
-                      <div className="h-12 w-12 rounded-lg bg-brand-primary/20 flex items-center justify-center">
-                        <CircleDollarSign className="h-6 w-6 text-brand-primary" />
+                      <div className="h-12 w-12 rounded-lg bg-green-500/20 flex items-center justify-center">
+                        <CircleDollarSign className="h-6 w-6 text-green-500" />
                       </div>
-                      <h3 className="text-lg font-medium">On-Chain Royalties</h3>
+                      <h3 className="text-lg font-medium">RoyaltyCoin</h3>
                       <p className="text-sm text-muted-foreground">
-                        Set up transparent royalty splits with collaborators using smart contracts on SUI.
+                        Enable fans to invest in your music's future earnings through fractional royalty tokens.
                       </p>
-                      <Button variant="outline">Configure Royalties</Button>
+                      <Button variant="outline" className="border-green-200 text-green-600 hover:bg-green-50">
+                        View RoyaltyCoins
+                      </Button>
                     </div>
 
                     <div className="space-y-3 hidden md:block">
-                      <div className="h-12 w-12 rounded-lg bg-brand-primary/20 flex items-center justify-center">
-                        <Wallet className="h-6 w-6 text-brand-primary" />
+                      <div className="h-12 w-12 rounded-lg bg-purple-500/20 flex items-center justify-center">
+                        <Wallet className="h-6 w-6 text-purple-500" />
                       </div>
-                      <h3 className="text-lg font-medium">Connect Wallet</h3>
+                      <h3 className="text-lg font-medium">SongVault</h3>
                       <p className="text-sm text-muted-foreground">
-                        Connect your SUI wallet to start minting NFTs and managing your on-chain assets.
+                        Transparent smart contracts that automatically distribute royalties to token holders.
                       </p>
-                      <Button variant="outline">Connect SUI Wallet</Button>
+                      <Button variant="outline" className="border-purple-200 text-purple-600 hover:bg-purple-50">
+                        Manage Vaults
+                      </Button>
                     </div>
                   </div>
                 </CardContent>
@@ -532,14 +536,34 @@ export default function Dashboard() {
                 <Card className="card-hover border-border/40 bg-card/60 backdrop-blur-sm">
                   <CardHeader>
                     <CardTitle className="flex items-center text-base md:text-lg">
-                      <BarChart3 className="mr-2 h-5 w-5 text-brand-primary" />
-                      NFT Performance
+                      <BarChart3 className="mr-2 h-5 w-5 text-blue-500" />
+                      Portfolio Performance
                     </CardTitle>
-                    <CardDescription>Track your NFT sales and secondary market activity</CardDescription>
+                    <CardDescription>Your tokenized music assets overview</CardDescription>
                   </CardHeader>
-                  <CardContent>
-                    <div className="flex items-center justify-center h-[150px] md:h-[200px] text-muted-foreground text-sm">
-                      Connect your wallet to view NFT performance
+                  <CardContent className="space-y-4">
+                    <div className="space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span>Total Value Locked</span>
+                        <span className="font-medium">$3,050</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span>Monthly Revenue</span>
+                        <span className="font-medium text-green-600">$1,100</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span>Active Holders</span>
+                        <span className="font-medium">245</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span>Songs Tokenized</span>
+                        <span className="font-medium">2/5</span>
+                      </div>
+                    </div>
+                    <div className="pt-2">
+                      <Button variant="outline" className="w-full" size="sm">
+                        View Detailed Analytics
+                      </Button>
                     </div>
                   </CardContent>
                 </Card>
@@ -547,25 +571,38 @@ export default function Dashboard() {
                 <Card className="card-hover border-border/40 bg-card/60 backdrop-blur-sm">
                   <CardHeader>
                     <CardTitle className="flex items-center text-base md:text-lg">
-                      <TrendingUp className="mr-2 h-5 w-5 text-brand-primary" />
-                      Web3 Market Trends
+                      <TrendingUp className="mr-2 h-5 w-5 text-green-500" />
+                      Recent Activity
                     </CardTitle>
-                    <CardDescription>Latest trends in the music NFT market</CardDescription>
+                    <CardDescription>Latest Web3 transactions and distributions</CardDescription>
                   </CardHeader>
-                  <CardContent className="space-y-4">
-                    {[
-                      { title: "Average Music NFT Price", value: "12.5 SUI", change: "+5.2%" },
-                      { title: "Weekly Trading Volume", value: "1,250 SUI", change: "+12.3%" },
-                      { title: "New Collectors This Week", value: "325", change: "+8.7%" },
-                    ].map((stat, i) => (
-                      <div key={i} className="flex justify-between items-center p-3 rounded-lg bg-muted/40">
-                        <span className="text-sm font-medium">{stat.title}</span>
-                        <div className="flex items-center gap-2">
-                          <span className="text-sm font-medium">{stat.value}</span>
-                          <Badge className="bg-success/20 text-success border-success/30">{stat.change}</Badge>
-                        </div>
+                  <CardContent className="space-y-3">
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-green-50 border border-green-200">
+                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                      <div className="flex-1">
+                        <div className="text-sm font-medium">Royalty Distribution</div>
+                        <div className="text-xs text-muted-foreground">Midnight Dreams - $420 USDC</div>
                       </div>
-                    ))}
+                      <div className="text-xs text-muted-foreground">2d ago</div>
+                    </div>
+                    
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-blue-50 border border-blue-200">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                      <div className="flex-1">
+                        <div className="text-sm font-medium">Token Purchase</div>
+                        <div className="text-xs text-muted-foreground">Urban Vibes - 100 ROYAL-UV</div>
+                      </div>
+                      <div className="text-xs text-muted-foreground">1w ago</div>
+                    </div>
+
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-purple-50 border border-purple-200">
+                      <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+                      <div className="flex-1">
+                        <div className="text-sm font-medium">Song Tokenized</div>
+                        <div className="text-xs text-muted-foreground">Urban Vibes NFT Created</div>
+                      </div>
+                      <div className="text-xs text-muted-foreground">2w ago</div>
+                    </div>
                   </CardContent>
                 </Card>
               </div>
