@@ -4,6 +4,7 @@ import { useState } from "react"
 import LandingPage from "./landing-page"
 import Image from "next/image"
 import { motion } from "framer-motion"
+import { useSearchParams } from "next/navigation"
 import {
   ArrowRight,
   ArrowUpRight,
@@ -75,6 +76,10 @@ export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("overview")
   const isMobile = useMobile()
   const { isAuthenticated, isLoading, user } = useAuth()
+  const searchParams = useSearchParams()
+  
+  // Check if action=auth is in URL
+  const actionParam = searchParams.get('action')
   
   // Show loading state while checking authentication
   if (isLoading) {
@@ -88,8 +93,8 @@ export default function Dashboard() {
     )
   }
 
-  // Show landing page for non-authenticated users
-  if (!isAuthenticated) {
+  // Show landing page for non-authenticated users OR if action=auth is in URL
+  if (!isAuthenticated || actionParam === 'auth') {
     return <LandingPage />
   }
 
