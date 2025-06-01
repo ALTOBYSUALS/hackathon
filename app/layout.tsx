@@ -2,10 +2,12 @@ import type React from "react"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/toaster"
 import { OnboardingProvider } from "@/components/onboarding/onboarding-provider"
+import { AuthProvider } from "@/contexts/auth-context"
 import { ResponsiveLayout } from "@/components/responsive-layout"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
+import { cn } from "@/lib/utils"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -64,12 +66,19 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#f47560" />
       </head>
-      <body className={inter.className}>
+      <body
+        className={cn(
+          "min-h-screen bg-background font-sans antialiased dark noise-bg",
+          inter.className
+        )}
+      >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <OnboardingProvider>
-            <ResponsiveLayout>{children}</ResponsiveLayout>
-            <Toaster />
-          </OnboardingProvider>
+          <AuthProvider>
+            <OnboardingProvider>
+              <ResponsiveLayout>{children}</ResponsiveLayout>
+              <Toaster />
+            </OnboardingProvider>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import LandingPage from "./landing-page"
 import Image from "next/image"
 import { motion } from "framer-motion"
 import {
@@ -26,6 +27,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import { useMobile } from "@/hooks/use-mobile"
+import { useAuth } from "@/contexts/auth-context"
 
 // Sample data for charts
 const streamData = [
@@ -72,6 +74,24 @@ const fadeInUp = {
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("overview")
   const isMobile = useMobile()
+  const { isAuthenticated, isLoading, user } = useAuth()
+  
+  // Show loading state while checking authentication
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="flex flex-col items-center gap-4">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-coral-500 border-t-transparent"></div>
+          <p className="text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    )
+  }
+
+  // Show landing page for non-authenticated users
+  if (!isAuthenticated) {
+    return <LandingPage />
+  }
 
   // Get current time to display appropriate greeting
   const currentHour = new Date().getHours()
@@ -91,7 +111,7 @@ export default function Dashboard() {
           variants={fadeInUp}
           transition={{ duration: 0.3 }}
         >
-          <h2 className="text-2xl md:text-3xl font-bold tracking-tight">{greeting}, Artist</h2>
+          <h2 className="text-2xl md:text-3xl font-bold tracking-tight">{greeting}, {user?.artistName || 'Artist'}</h2>
           <p className="text-muted-foreground">Here's what's happening with your music today</p>
         </motion.section>
 

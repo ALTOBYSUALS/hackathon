@@ -1,10 +1,18 @@
 import { createClient } from '@supabase/supabase-js'
 
-// Estos valores deberían estar en variables de entorno en producción
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://your-supabase-url.supabase.co'
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'your-anon-key'
+if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
+  console.error('Missing NEXT_PUBLIC_SUPABASE_URL')
+}
 
-export const supabase = createClient(supabaseUrl, supabaseKey)
+if (!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+  console.error('Missing NEXT_PUBLIC_SUPABASE_ANON_KEY')
+}
+
+// Crear el cliente de Supabase
+export const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL || '',
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+)
 
 // Tipos para nuestros datos
 export type Track = {
@@ -101,16 +109,30 @@ export async function uploadTrack(file: File, metadata: Omit<Track, 'id' | 'audi
 }
 
 export async function incrementPlays(trackId: string) {
-  const { data, error } = await supabase.rpc('increment_track_plays', {
-    track_id: trackId
-  })
+  // First get the current play count
+  const { data: track, error: fetchError } = await supabase
+    .from('tracks')
+    .select('plays')
+    .eq('id', trackId)
+    .single();
   
-  if (error) {
-    console.error('Error incrementing plays:', error)
-    return false
+  if (fetchError) {
+    console.error('Error fetching track play count:', fetchError);
+    return false;
   }
   
-  return true
+  // Then increment the plays count
+  const { data, error } = await supabase
+    .from('tracks')
+    .update({ plays: (track?.plays || 0) + 1 })
+    .eq('id', trackId);
+  
+  if (error) {
+    console.error('Error incrementing plays:', error);
+    return false;
+  }
+  
+  return true;
 }
 
 export async function toggleLike(trackId: string, userId: string) {
@@ -125,4 +147,94 @@ export async function toggleLike(trackId: string, userId: string) {
   }
   
   return data
+}
+
+// Autenticación
+export async function signIn(email: string, password: string) {
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+  return { data, error };
+}
+
+export async function signUp(email: string, password: string) {
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+  });
+  return { data, error };
+}
+
+export async function signOut() {
+  const { error } = await supabase.auth.signOut();
+  return { error };
+}
+
+// Subir un archivo a Supabase Storage
+export async function uploadFile(bucket: string, path: string, file: File) {
+  const { data, error } = await supabase.storage
+    .from(bucket)
+    .upload(path, file, {
+      cacheControl: '3600',
+      upsert: true,
+    });
+  return { data, error };
+}
+
+// Obtener una URL pública de un archivo en Storage
+export function getPublicURL(bucket: string, path: string) {
+  const { data } = supabase.storage.from(bucket).getPublicUrl(path);
+  return data.publicUrl;
+}
+
+// Tracks
+export async function fetchTracks() {
+  const { data, error } = await supabase
+    .from('tracks')
+    .select('*')
+    .order('created_at', { ascending: false });
+  return { data, error };
+}
+
+export async function fetchTrackById(id: string) {
+  const { data, error } = await supabase
+    .from('tracks')
+    .select('*')
+    .eq('id', id)
+    .single();
+  return { data, error };
+}
+
+export async function createTrack(trackData: any) {
+  const { data, error } = await supabase
+    .from('tracks')
+    .insert(trackData)
+    .select();
+  return { data, error };
+}
+
+// Artistas
+export async function fetchArtists() {
+  const { data, error } = await supabase
+    .from('artists')
+    .select('*');
+  return { data, error };
+}
+
+// Verificar si Supabase está conectado
+export async function checkSupabaseConnection() {
+  try {
+    const { data, error } = await supabase.from('tracks').select('count', { count: 'exact' });
+    
+    if (error) {
+      console.error('Error connecting to Supabase:', error);
+      return { connected: false, error };
+    }
+    
+    return { connected: true, data };
+  } catch (err) {
+    console.error('Error checking Supabase connection:', err);
+    return { connected: false, error: err };
+  }
 } 

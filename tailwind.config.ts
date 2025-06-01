@@ -19,6 +19,9 @@ const config = {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ['Outfit', 'system-ui', 'sans-serif'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -54,24 +57,51 @@ const config = {
           foreground: "hsl(var(--card-foreground))",
         },
         brand: {
-          primary: "hsl(var(--brand-primary))",
-          secondary: "hsl(var(--brand-secondary))",
-          tertiary: "hsl(var(--brand-tertiary))",
-          dark: "hsl(var(--brand-dark))",
-          light: "hsl(var(--brand-light))",
+          coral: "#ffa189",
+          purple: "#6B5BFF",
+          dark: "#121212",
+          light: "#EBEBEB",
         },
-        coral: {
-          50: "#fef7f7",
-          100: "#feeee9",
-          200: "#fdddcf",
-          300: "#fbc2a5",
-          400: "#f8996a",
-          500: "#f47560",  // Color principal coral
-          600: "#e85d42",
-          700: "#c44132",
-          800: "#a0352f",
-          900: "#842e2c",
-          950: "#481511",
+        sonar: {
+          coral: {
+            50: "#fff5f2",
+            100: "#ffe8e1",
+            200: "#ffd4c7",
+            300: "#ffb8a1",
+            400: "#ffa189",
+            500: "#ff7c5d",
+            600: "#ff5833",
+            700: "#e84723",
+            800: "#c33a1f",
+            900: "#a13220",
+            950: "#571610",
+          },
+          purple: {
+            50: "#f0efff",
+            100: "#e4e2ff",
+            200: "#ccc8ff",
+            300: "#ada5ff",
+            400: "#8b7bff",
+            500: "#6B5BFF",
+            600: "#5741f7",
+            700: "#4932e3",
+            800: "#3d2abf",
+            900: "#34259c",
+            950: "#1f156a",
+          },
+          dark: {
+            50: "#f6f6f6",
+            100: "#e7e7e7",
+            200: "#d1d1d1",
+            300: "#b0b0b0",
+            400: "#888888",
+            500: "#6d6d6d",
+            600: "#5a5a5a",
+            700: "#4a4a4a",
+            800: "#3a3a3a",
+            900: "#2a2a2a",
+            950: "#121212",
+          },
         },
         success: "hsl(var(--success))",
         error: "hsl(var(--error))",
@@ -102,6 +132,14 @@ const config = {
           "0%, 100%": { opacity: "1" },
           "50%": { opacity: "0.7" },
         },
+        glow: {
+          "0%, 100%": { 
+            boxShadow: "0 0 15px rgba(255, 161, 137, 0.5), 0 0 30px rgba(107, 91, 255, 0.3)" 
+          },
+          "50%": { 
+            boxShadow: "0 0 20px rgba(255, 161, 137, 0.6), 0 0 40px rgba(107, 91, 255, 0.4)" 
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -109,13 +147,17 @@ const config = {
         "fade-in": "fadeIn 0.3s ease-in-out",
         "slide-up": "slideUp 0.4s ease-out",
         "pulse-slow": "pulse 2s infinite",
+        "glow": "glow 2s ease-in-out infinite",
       },
       backgroundImage: {
         "gradient-primary": "var(--gradient-primary)",
         "gradient-secondary": "var(--gradient-secondary)",
+        "gradient-radial": "var(--gradient-radial)",
+        "noise": "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E\")",
       },
       boxShadow: {
-        glow: "0 0 15px rgba(124, 58, 237, 0.5)",
+        glow: "0 0 15px rgba(255, 161, 137, 0.5)",
+        "glow-purple": "0 0 15px rgba(107, 91, 255, 0.5)",
       },
     },
   },

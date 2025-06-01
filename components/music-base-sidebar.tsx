@@ -219,12 +219,24 @@ export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
   ]
 
   // Function to check if a path is active
-  const isActive = (href: string, pathname: string) => {
-    if (href === "/") {
-      return pathname === "/"
+  const isActive = (item: any, pathname: string) => {
+    if (item.subItems) {
+      // For parent items, check if the parent's href is active or any of its sub-items are active
+      const isParentActive = item.href === pathname || (item.href !== "/" && pathname.startsWith(item.href + "/"));
+      const isSubItemActive = item.subItems.some((subItem: any) =>
+        subItem.href === pathname ||
+        (pathname.includes("?tab=") && subItem.href === pathname.split("?")[0]) ||
+        (subItem.href !== "/" && pathname.startsWith(subItem.href + "/"))
+      );
+      return isParentActive || isSubItemActive;
+    } else {
+      // For regular items, use the existing logic
+      if (item.href === "/") {
+        return pathname === "/";
+      }
+      return pathname === item.href || pathname.startsWith(item.href + "/");
     }
-    return pathname === href || pathname.startsWith(href + "/")
-  }
+  };
 
   // Function to toggle submenu
   const [openSubMenus, setOpenSubMenus] = useState<Record<string, boolean>>({})
@@ -233,7 +245,7 @@ export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const initialOpenSubMenus: Record<string, boolean> = {}
     navigationItems.forEach((item) => {
-      if (item.subItems && isActive(item.href, pathname)) {
+      if (item.subItems && isActive(item, pathname)) {
         initialOpenSubMenus[item.title] = true
       }
     })
@@ -344,18 +356,7 @@ export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
               onClick={() => setExpanded(!expanded)}
               className="h-8 w-8 flex-shrink-0"
             >
-              {expanded ? (
-                <Menu className="h-5 w-5" />
-              ) : (
-                <div className="h-5 w-5 relative">
-                  <Image 
-                    src="/sonar-icon.png" 
-                    alt="SONAR Logo" 
-                    fill
-                    className="object-contain"
-                  />
-                </div>
-              )}
+              <Menu className="h-5 w-5" />
             </Button>
           </div>
 
@@ -364,7 +365,7 @@ export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
             <TooltipProvider delayDuration={0}>
               <nav className="space-y-1 p-3">
                 {navigationItems.map((item) => {
-                  const active = isActive(item.href, pathname)
+                  const active = isActive(item, pathname)
                   const hasSubItems = item.subItems && item.subItems.length > 0
                   const isSubMenuOpen = openSubMenus[item.title]
 
@@ -619,7 +620,7 @@ export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
           <div className="fixed bottom-0 left-0 right-0 border-t border-border bg-card/95 backdrop-blur-sm z-40">
             <div className="flex items-center justify-around h-16">
               {mobileNavItems.map((item) => {
-                const active = isActive(item.href, pathname)
+                const active = isActive(item, pathname)
                 return (
                   <Link
                     key={item.title}
