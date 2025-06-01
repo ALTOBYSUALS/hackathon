@@ -13,9 +13,10 @@ if (!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
 }
 
 // Crear el cliente de Supabase con valores por defecto
+console.log(`Attempting to initialize Supabase client. Using DEFAULT_SUPABASE_URL: ${DEFAULT_SUPABASE_URL}`);
 export const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL || DEFAULT_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || DEFAULT_SUPABASE_KEY
+  DEFAULT_SUPABASE_URL, // Forzado para depuración
+  DEFAULT_SUPABASE_KEY  // Forzado para depuración
 )
 
 // Tipos para nuestros datos
