@@ -3,7 +3,7 @@
 import type React from "react"
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import {
   BarChart3,
@@ -66,12 +66,15 @@ import {
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from "@/components/ui/sheet"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { useMobile } from "@/hooks/use-mobile"
+import { useAuth } from '@/contexts/auth-context'
 
 export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const [expanded, setExpanded] = useState(true)
   const isMobile = useMobile()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const { logout } = useAuth()
+  const router = useRouter()
 
   // Check if we're on mobile and adjust sidebar
   useEffect(() => {
@@ -293,6 +296,11 @@ export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
     { title: "Account", icon: User, href: "/account" },
   ]
 
+  const handleLogout = () => {
+    logout()
+    router.push('/')
+  }
+
   return (
     <div className="flex h-screen overflow-hidden bg-background">
       {/* Desktop Sidebar */}
@@ -386,7 +394,7 @@ export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
                                 <>
                                   <span className="whitespace-nowrap flex-1 text-left">{item.title}</span>
                                   {item.isNew && (
-                                    <Badge className="ml-auto bg-coral-600 text-white text-xs">New</Badge>
+                                    <Badge className="ml-auto bg-sonar-coral-600 text-white text-xs">New</Badge>
                                   )}
                                   {isSubMenuOpen ? (
                                     <ChevronUp className="h-4 w-4 flex-shrink-0" />
@@ -409,7 +417,7 @@ export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
                                 <>
                                   <span className="whitespace-nowrap">{item.title}</span>
                                   {item.isNew && (
-                                    <Badge className="ml-auto bg-coral-600 text-white text-xs">New</Badge>
+                                    <Badge className="ml-auto bg-sonar-coral-600 text-white text-xs">New</Badge>
                                   )}
                                 </>
                               )}
@@ -419,7 +427,7 @@ export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
                         {!expanded && (
                           <TooltipContent side="right" className="flex items-center gap-2">
                             {item.title}
-                            {item.isNew && <Badge className="bg-coral-600 text-white text-xs">New</Badge>}
+                            {item.isNew && <Badge className="bg-sonar-coral-600 text-white text-xs">New</Badge>}
                           </TooltipContent>
                         )}
                       </Tooltip>
@@ -481,7 +489,7 @@ export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
                   >
                     <Avatar className="h-8 w-8">
                       <AvatarImage src="/abstract-geometric-shapes.png" alt="User" />
-                      <AvatarFallback className="bg-coral-600 text-white">SN</AvatarFallback>
+                      <AvatarFallback className="bg-sonar-coral-600 text-white">SN</AvatarFallback>
                     </Avatar>
                     {expanded && (
                       <div className="flex flex-col">
@@ -500,7 +508,7 @@ export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
                       <span>Profile</span>
                     </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleLogout}>
                     <LogOut className="mr-2 h-4 w-4" />
                     <span>Log out</span>
                   </DropdownMenuItem>
@@ -552,14 +560,14 @@ export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
                           >
                             <item.icon className="h-5 w-5" />
                             <span>{item.title}</span>
-                            {item.isNew && <Badge className="ml-auto bg-coral-600 text-white text-xs">New</Badge>}
+                            {item.isNew && <Badge className="ml-auto bg-sonar-coral-600 text-white text-xs">New</Badge>}
                           </Link>
                         </SheetClose>
                       ))}
                     </nav>
                   </ScrollArea>
                   <div className="border-t border-border p-4">
-                    <Button variant="outline" className="w-full" size="sm">
+                    <Button variant="outline" className="w-full" size="sm" onClick={handleLogout}>
                       <LogOut className="mr-2 h-4 w-4" />
                       Log out
                     </Button>
@@ -586,7 +594,7 @@ export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
             <div className="flex items-center gap-2 md:gap-4">
               <Button variant="outline" size="icon" className="relative">
                 <Bell className="h-5 w-5" />
-                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-coral-600 text-[10px] text-white">
+                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-sonar-coral-600 text-[10px] text-white">
                   3
                 </span>
               </Button>
@@ -599,7 +607,7 @@ export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
               </Button>
 
               <Button
-                className="bg-gradient-to-r from-coral-500 to-coral-400 hover:opacity-90 transition-opacity"
+                className="bg-gradient-to-r from-sonar-coral-500 to-sonar-coral-400 hover:opacity-90 transition-opacity"
                 size="sm"
                 asChild
               >

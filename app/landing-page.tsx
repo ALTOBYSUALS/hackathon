@@ -108,7 +108,7 @@ export default function LandingPage() {
       {/* Hero Section */}
       <section className="relative h-screen max-h-[800px] overflow-hidden">
         {/* Background gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-coral-500/30 via-background to-background z-0"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-sonar-coral-500/30 via-background to-background z-0"></div>
         
         {/* Content overlay */}
         <div className="container mx-auto px-4 h-full flex flex-col justify-center relative z-10">
@@ -129,7 +129,7 @@ export default function LandingPage() {
             <div className="flex flex-col sm:flex-row gap-4">
               <Button 
                 size="lg" 
-                className="bg-coral-500 hover:bg-coral-600 text-white"
+                className="bg-sonar-coral-500 hover:bg-sonar-coral-600 text-white"
                 onClick={handleLaunchApp}
               >
                 Launch App
@@ -176,7 +176,7 @@ export default function LandingPage() {
                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                       <Button
                         size="icon"
-                        className="rounded-full bg-coral-500 hover:bg-coral-600 text-white h-12 w-12"
+                        className="rounded-full bg-sonar-coral-500 hover:bg-sonar-coral-600 text-white h-12 w-12"
                         onClick={() => handlePlayPause(track)}
                       >
                         {currentTrack?.id === track.id && isPlaying 
@@ -189,7 +189,7 @@ export default function LandingPage() {
                   <CardContent className="p-4">
                     <h3 className="font-semibold truncate">{track.title}</h3>
                     <p className="text-sm text-muted-foreground">{track.artist}</p>
-                    <p className="text-xs text-coral-500 mt-2">
+                    <p className="text-xs text-sonar-coral-500 mt-2">
                       Preview only • <button onClick={() => setShowAuthModal(true)} className="underline">Sign up</button> for full access
                     </p>
                   </CardContent>
@@ -237,7 +237,7 @@ export default function LandingPage() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="flex flex-col items-center text-center"
             >
-              <div className="h-16 w-16 rounded-full bg-coral-100 text-coral-600 flex items-center justify-center mb-4">
+              <div className="h-16 w-16 rounded-full bg-sonar-coral-100 text-sonar-coral-600 flex items-center justify-center mb-4">
                 <Upload className="h-8 w-8" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Upload Your Music</h3>
@@ -254,7 +254,7 @@ export default function LandingPage() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="flex flex-col items-center text-center"
             >
-              <div className="h-16 w-16 rounded-full bg-coral-100 text-coral-600 flex items-center justify-center mb-4">
+              <div className="h-16 w-16 rounded-full bg-sonar-coral-100 text-sonar-coral-600 flex items-center justify-center mb-4">
                 <Globe className="h-8 w-8" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Global Distribution</h3>
@@ -271,7 +271,7 @@ export default function LandingPage() {
               transition={{ duration: 0.5, delay: 0.3 }}
               className="flex flex-col items-center text-center"
             >
-              <div className="h-16 w-16 rounded-full bg-coral-100 text-coral-600 flex items-center justify-center mb-4">
+              <div className="h-16 w-16 rounded-full bg-sonar-coral-100 text-sonar-coral-600 flex items-center justify-center mb-4">
                 <CircleDollarSign className="h-8 w-8" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Transparent Royalties</h3>
@@ -288,7 +288,7 @@ export default function LandingPage() {
               transition={{ duration: 0.5, delay: 0.4 }}
               className="flex flex-col items-center text-center"
             >
-              <div className="h-16 w-16 rounded-full bg-coral-100 text-coral-600 flex items-center justify-center mb-4">
+              <div className="h-16 w-16 rounded-full bg-sonar-coral-100 text-sonar-coral-600 flex items-center justify-center mb-4">
                 <Boxes className="h-8 w-8" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Web3 Integration</h3>
@@ -301,7 +301,7 @@ export default function LandingPage() {
       </section>
       
       {/* Web3 Features Section */}
-      <section className="py-16 bg-gradient-to-br from-background via-coral-50/10 to-background">
+      <section className="py-16 bg-gradient-to-br from-background via-sonar-coral-50/10 to-background">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <motion.div
@@ -318,7 +318,7 @@ export default function LandingPage() {
               
               <div className="space-y-6">
                 <div className="flex gap-4">
-                  <div className="h-10 w-10 rounded-full bg-coral-100 text-coral-600 flex-shrink-0 flex items-center justify-center">
+                  <div className="h-10 w-10 rounded-full bg-sonar-coral-100 text-sonar-coral-600 flex-shrink-0 flex items-center justify-center">
                     <Music className="h-5 w-5" />
                   </div>
                   <div>
@@ -330,7 +330,7 @@ export default function LandingPage() {
                 </div>
                 
                 <div className="flex gap-4">
-                  <div className="h-10 w-10 rounded-full bg-coral-100 text-coral-600 flex-shrink-0 flex items-center justify-center">
+                  <div className="h-10 w-10 rounded-full bg-sonar-coral-100 text-sonar-coral-600 flex-shrink-0 flex items-center justify-center">
                     <Users className="h-5 w-5" />
                   </div>
                   <div>
@@ -342,7 +342,7 @@ export default function LandingPage() {
                 </div>
                 
                 <div className="flex gap-4">
-                  <div className="h-10 w-10 rounded-full bg-coral-100 text-coral-600 flex-shrink-0 flex items-center justify-center">
+                  <div className="h-10 w-10 rounded-full bg-sonar-coral-100 text-sonar-coral-600 flex-shrink-0 flex items-center justify-center">
                     <BarChart3 className="h-5 w-5" />
                   </div>
                   <div>
@@ -355,7 +355,7 @@ export default function LandingPage() {
               </div>
               
               <Button 
-                className="mt-8 bg-coral-500 hover:bg-coral-600 text-white"
+                className="mt-8 bg-sonar-coral-500 hover:bg-sonar-coral-600 text-white"
                 size="lg"
                 onClick={() => router.push('/signup')}
               >
@@ -384,7 +384,7 @@ export default function LandingPage() {
       </section>
       
       {/* CTA Section */}
-      <section className="py-16 bg-coral-500 text-white">
+      <section className="py-16 bg-sonar-coral-500 text-white">
         <div className="container mx-auto px-4 text-center">
           <motion.div
             initial="hidden"
@@ -400,7 +400,7 @@ export default function LandingPage() {
             <Button 
               size="lg" 
               variant="secondary"
-              className="bg-white text-coral-600 hover:bg-white/90"
+              className="bg-white text-sonar-coral-600 hover:bg-white/90"
               onClick={handleLaunchApp}
             >
               Launch App Now
