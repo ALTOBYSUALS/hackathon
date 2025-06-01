@@ -8,7 +8,7 @@
   "theme_color": "#f47560",
   "icons": [
     {
-      "src": "/coral-logo-transparent.png",
+      "src": "/sonar-icon.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"

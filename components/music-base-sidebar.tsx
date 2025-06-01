@@ -47,6 +47,7 @@ import {
   Video,
   Heart,
 } from "lucide-react"
+import Image from "next/image"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -298,8 +299,14 @@ export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
                   transition={{ duration: 0.2 }}
                   className="flex items-center gap-2"
                 >
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-r from-coral-500 to-coral-400">
-                    <Music2 className="h-4 w-4 text-white" />
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg overflow-hidden">
+                    <Image 
+                      src="/sonar-icon.png" 
+                      alt="SONAR" 
+                      width={40} 
+                      height={40}
+                      className="object-contain"
+                    />
                   </div>
                   <span className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-coral-500 to-coral-400">
                     SONAR
@@ -312,9 +319,15 @@ export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.2 }}
-                  className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-r from-coral-500 to-coral-400 mx-auto"
+                  className="flex h-10 w-10 items-center justify-center rounded-lg overflow-hidden mx-auto"
                 >
-                  <Music2 className="h-4 w-4 text-white" />
+                  <Image 
+                    src="/sonar-icon.png" 
+                    alt="SONAR" 
+                    width={40} 
+                    height={40}
+                    className="object-contain"
+                  />
                 </motion.div>
               )}
             </AnimatePresence>
@@ -497,8 +510,14 @@ export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
                 <SheetContent side="left" className="w-[85%] max-w-[350px] p-0">
                   <SheetHeader className="border-b border-border p-4">
                     <SheetTitle className="flex items-center gap-2">
-                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-coral-500 to-coral-400">
-                        <Music2 className="h-4 w-4 text-white" />
+                      <div className="flex h-8 w-8 items-center justify-center rounded-lg overflow-hidden">
+                        <Image 
+                          src="/sonar-icon.png" 
+                          alt="SONAR" 
+                          width={32} 
+                          height={32}
+                          className="object-contain"
+                        />
                       </div>
                       <span className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-coral-500 to-coral-400">
                         SONAR
@@ -533,8 +552,14 @@ export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
 
             <div className="flex items-center gap-2">
               {isMobile && (
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-coral-500 to-coral-400">
-                  <Music2 className="h-4 w-4 text-white" />
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg overflow-hidden">
+                  <Image 
+                    src="/sonar-icon.png" 
+                    alt="SONAR" 
+                    width={32} 
+                    height={32}
+                    className="object-contain"
+                  />
                 </div>
               )}
               <h1 className="text-xl font-semibold">{getCurrentPageTitle()}</h1>

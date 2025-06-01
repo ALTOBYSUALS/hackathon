@@ -70,7 +70,7 @@ export function MainSidebar() {
           <Link href="/" className="flex items-center gap-2 font-semibold">
             <div className="h-8 w-8 rounded-md overflow-hidden flex items-center justify-center">
               <Image 
-                src="/coral-logo-transparent.png" 
+                src="/sonar-icon.png" 
                 alt="SONAR Logo" 
                 width={32} 
                 height={32}
@@ -85,7 +85,7 @@ export function MainSidebar() {
           <Link href="/" className="mx-auto">
             <div className="h-8 w-8 rounded-md overflow-hidden flex items-center justify-center">
               <Image 
-                src="/coral-logo-transparent.png" 
+                src="/sonar-icon.png" 
                 alt="SONAR Logo" 
                 width={32} 
                 height={32}

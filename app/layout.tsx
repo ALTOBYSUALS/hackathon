@@ -20,10 +20,10 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
-      { url: "/coral-logo-transparent.png", sizes: "512x512", type: "image/png" },
+      { url: "/sonar-icon.png", sizes: "512x512", type: "image/png" },
     ],
     apple: [
-      { url: "/coral-logo-transparent.png", sizes: "180x180", type: "image/png" },
+      { url: "/sonar-icon.png", sizes: "180x180", type: "image/png" },
     ],
   },
   openGraph: {
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     siteName: "SONAR",
     images: [
       {
-        url: "/coral-logo-transparent.png",
+        url: "/sonar-icon.png",
         width: 1200,
         height: 630,
         alt: "SONAR Logo",
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "SONAR - Neodistro Platform",
     description: "The future of music distribution with Web3 technology",
-    images: ["/coral-logo-transparent.png"],
+    images: ["/sonar-icon.png"],
   },
 }
 
@@ -59,8 +59,8 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" href="/coral-logo-transparent.png" type="image/png" />
-        <link rel="apple-touch-icon" href="/coral-logo-transparent.png" />
+        <link rel="icon" href="/sonar-icon.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/sonar-icon.png" />
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#f47560" />
       </head>
