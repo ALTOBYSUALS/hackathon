@@ -71,14 +71,14 @@ export function MainSidebar() {
             <div className="h-8 w-8 rounded-md overflow-hidden flex items-center justify-center">
               <Image 
                 src="/coral-logo-transparent.png" 
-                alt="MUSIC BASE Logo" 
+                alt="SONAR Logo" 
                 width={32} 
                 height={32}
                 className="object-contain"
               />
             </div>
             <span className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-coral-500 to-coral-400">
-              MUSIC BASE
+              SONAR
             </span>
           </Link>
         ) : (
@@ -86,7 +86,7 @@ export function MainSidebar() {
             <div className="h-8 w-8 rounded-md overflow-hidden flex items-center justify-center">
               <Image 
                 src="/coral-logo-transparent.png" 
-                alt="MUSIC BASE Logo" 
+                alt="SONAR Logo" 
                 width={32} 
                 height={32}
                 className="object-contain"

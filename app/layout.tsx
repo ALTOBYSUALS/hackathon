@@ -10,13 +10,13 @@ import "./globals.css"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "MUSIC BASE - Neodistro Platform",
+  title: "SONAR - Neodistro Platform",
   description: "The future of music distribution with Web3 technology. Tokenize your music, enable fan investment, and receive transparent royalties on Polkadot.",
-  generator: "MUSIC BASE",
+  generator: "SONAR",
   keywords: ["music distribution", "Web3", "Polkadot", "NFT", "royalties", "blockchain", "music streaming"],
-  authors: [{ name: "MUSIC BASE Team" }],
-  creator: "MUSIC BASE",
-  publisher: "MUSIC BASE",
+  authors: [{ name: "SONAR Team" }],
+  creator: "SONAR",
+  publisher: "SONAR",
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
@@ -27,16 +27,16 @@ export const metadata: Metadata = {
     ],
   },
   openGraph: {
-    title: "MUSIC BASE - Neodistro Platform",
+    title: "SONAR - Neodistro Platform",
     description: "The future of music distribution with Web3 technology",
     url: "https://music-base.vercel.app",
-    siteName: "MUSIC BASE",
+    siteName: "SONAR",
     images: [
       {
         url: "/coral-logo-transparent.png",
         width: 1200,
         height: 630,
-        alt: "MUSIC BASE Logo",
+        alt: "SONAR Logo",
       },
     ],
     locale: "en_US",
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "MUSIC BASE - Neodistro Platform",
+    title: "SONAR - Neodistro Platform",
     description: "The future of music distribution with Web3 technology",
     images: ["/coral-logo-transparent.png"],
   },

@@ -129,14 +129,14 @@ export function MobileNavigation() {
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm overflow-hidden">
                       <Image 
                         src="/coral-logo-transparent.png" 
-                        alt="MUSIC BASE Logo" 
+                        alt="SONAR Logo" 
                         width={32} 
                         height={32}
                         className="object-contain"
                       />
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-xl font-bold text-white">MUSIC BASE</span>
+                      <span className="text-xl font-bold text-white">SONAR</span>
                       <span className="text-xs text-white/80">Neodistro Platform</span>
                     </div>
                   </div>
@@ -240,14 +240,14 @@ export function MobileNavigation() {
             <div className="flex h-9 w-9 items-center justify-center rounded-xl overflow-hidden">
               <Image 
                 src="/coral-logo-transparent.png" 
-                alt="MUSIC BASE Logo" 
+                alt="SONAR Logo" 
                 width={28} 
                 height={28}
                 className="object-contain"
               />
             </div>
             <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-coral-500 to-coral-400">
-              MUSIC BASE
+              SONAR
             </span>
           </Link>
         </div>

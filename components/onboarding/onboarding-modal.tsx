@@ -19,7 +19,7 @@ export function OnboardingModal() {
 
   const steps = [
     {
-      title: "Welcome to MUSIC BASE",
+      title: "Welcome to SONAR",
       description: "Your all-in-one platform for music distribution, analytics, and promotion.",
       icon: <Music className="h-10 w-10 text-brand-primary" />,
       image: "/abstract-soundscape.png",

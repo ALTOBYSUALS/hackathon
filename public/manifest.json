@@ -1,6 +1,6 @@
 {
-  "name": "MUSIC BASE - Neodistro Platform",
-  "short_name": "MUSIC BASE",
+  "name": "SONAR - Neodistro Platform",
+  "short_name": "SONAR",
   "description": "The future of music distribution with Web3 technology",
   "start_url": "/",
   "display": "standalone",
