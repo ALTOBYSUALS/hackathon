@@ -2,13 +2,15 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, Mail, Lock, User, Eye, EyeOff } from 'lucide-react'
+import { X, Mail, Lock, User, Eye, EyeOff, Chrome, Wallet } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useAuth } from '@/contexts/auth-context'
+import ConnectPolkadotWalletButton from '@/components/web3/connect-polkadot-wallet-button'
+import { Separator } from '@/components/ui/separator'
 
 interface AuthModalProps {
   isOpen: boolean
@@ -17,7 +19,7 @@ interface AuthModalProps {
 }
 
 export default function AuthModal({ isOpen, onClose, onAuthSuccess }: AuthModalProps) {
-  const { login, signup } = useAuth()
+  const { login, signup, loginWithPolkadot } = useAuth()
   const [showPassword, setShowPassword] = useState(false)
   const [activeTab, setActiveTab] = useState("signin")
   const [error, setError] = useState("")
@@ -55,6 +57,23 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess }: AuthModalP
     } catch (error) {
       setError("Failed to create account")
     }
+  }
+
+  const handlePolkadotConnect = async (address: string, name?: string) => {
+    try {
+      // Use the loginWithPolkadot method from auth context
+      await loginWithPolkadot(address, name)
+      onAuthSuccess()
+      onClose()
+    } catch (error) {
+      setError("Failed to authenticate with Polkadot wallet")
+    }
+  }
+
+  const handleGoogleSignIn = () => {
+    // TODO: Implement Google OAuth
+    console.log("Google Sign In clicked")
+    setError("Google Sign In coming soon!")
   }
 
   return (
@@ -103,6 +122,31 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess }: AuthModalP
                   </div>
                 )}
                 
+                {/* Web3 Authentication Section */}
+                <div className="space-y-4 mb-6">
+                  <div className="text-center">
+                    <h3 className="text-sm font-medium text-muted-foreground mb-3">
+                      Connect with Web3
+                    </h3>
+                  </div>
+                  
+                  <ConnectPolkadotWalletButton 
+                    onConnect={handlePolkadotConnect}
+                  />
+                  
+                  <div className="relative">
+                    <div className="absolute inset-0 flex items-center">
+                      <Separator className="w-full" />
+                    </div>
+                    <div className="relative flex justify-center text-xs uppercase">
+                      <span className="bg-card px-2 text-muted-foreground">
+                        Or continue with
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Traditional Authentication */}
                 <Tabs value={activeTab} onValueChange={setActiveTab}>
                   <TabsList className="grid w-full grid-cols-2 bg-muted/50">
                     <TabsTrigger value="signin">Sign In</TabsTrigger>
@@ -110,6 +154,28 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess }: AuthModalP
                   </TabsList>
                   
                   <TabsContent value="signin" className="space-y-4 mt-6">
+                    {/* Google Sign In Button */}
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="w-full"
+                      onClick={handleGoogleSignIn}
+                    >
+                      <Chrome className="mr-2 h-4 w-4" />
+                      Sign in with Google
+                    </Button>
+                    
+                    <div className="relative">
+                      <div className="absolute inset-0 flex items-center">
+                        <Separator className="w-full" />
+                      </div>
+                      <div className="relative flex justify-center text-xs uppercase">
+                        <span className="bg-card px-2 text-muted-foreground">
+                          Or
+                        </span>
+                      </div>
+                    </div>
+                    
                     <form onSubmit={handleSignIn} className="space-y-4">
                       <div className="space-y-2">
                         <Label htmlFor="signin-email">Email</Label>
@@ -166,6 +232,28 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess }: AuthModalP
                   </TabsContent>
                   
                   <TabsContent value="signup" className="space-y-4 mt-6">
+                    {/* Google Sign Up Button */}
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="w-full"
+                      onClick={handleGoogleSignIn}
+                    >
+                      <Chrome className="mr-2 h-4 w-4" />
+                      Sign up with Google
+                    </Button>
+                    
+                    <div className="relative">
+                      <div className="absolute inset-0 flex items-center">
+                        <Separator className="w-full" />
+                      </div>
+                      <div className="relative flex justify-center text-xs uppercase">
+                        <span className="bg-card px-2 text-muted-foreground">
+                          Or
+                        </span>
+                      </div>
+                    </div>
+                    
                     <form onSubmit={handleSignUp} className="space-y-4">
                       <div className="space-y-2">
                         <Label htmlFor="signup-name">Artist Name</Label>

@@ -5,9 +5,11 @@ import { signIn, signUp, signOut } from '@/lib/supabase'
 
 interface User {
   id: string
-  email: string
+  email?: string
   artistName: string
   avatar?: string
+  polkadotAddress?: string
+  authType: 'traditional' | 'web3'
 }
 
 interface AuthContextType {
@@ -16,6 +18,7 @@ interface AuthContextType {
   isLoading: boolean
   login: (email: string, password: string) => Promise<void>
   signup: (email: string, password: string, artistName: string) => Promise<void>
+  loginWithPolkadot: (address: string, name?: string) => Promise<void>
   logout: () => void
 }
 
@@ -59,7 +62,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           id: data.user.id,
           email: data.user.email || email,
           artistName: (data.user as any).user_metadata?.artistName || 'Artist',
-          avatar: (data.user as any).user_metadata?.avatar || '/artist-avatar.png'
+          avatar: (data.user as any).user_metadata?.avatar || '/artist-avatar.png',
+          authType: 'traditional'
         }
         
         setUser(userData)
@@ -89,7 +93,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           id: data.user.id,
           email: data.user.email || email,
           artistName,
-          avatar: '/artist-avatar.png'
+          avatar: '/artist-avatar.png',
+          authType: 'traditional'
         }
         
         setUser(userData)
@@ -103,9 +108,44 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }
 
+  const loginWithPolkadot = async (address: string, name?: string) => {
+    setIsLoading(true)
+    
+    try {
+      // In a real implementation, you would:
+      // 1. Send the address and signature to your backend
+      // 2. Verify the signature on the backend
+      // 3. Create or retrieve the user account
+      // 4. Return a session token
+      
+      // For now, we'll create a local user session
+      const userData: User = {
+        id: `polkadot-${address}`,
+        polkadotAddress: address,
+        artistName: name || `Artist ${address.substring(0, 6)}`,
+        avatar: '/artist-avatar.png',
+        authType: 'web3'
+      }
+      
+      setUser(userData)
+      localStorage.setItem('sonar_user', JSON.stringify(userData))
+      
+      // TODO: In production, integrate with your backend to create/retrieve the user
+      console.log('Polkadot authentication successful:', address)
+    } catch (error) {
+      console.error('Polkadot login error:', error)
+      throw error
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   const logout = async () => {
     try {
-      await signOut()
+      // Only call signOut for traditional auth
+      if (user?.authType === 'traditional') {
+        await signOut()
+      }
     } catch (error) {
       console.error('Logout error:', error)
     }
@@ -120,6 +160,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     isLoading,
     login,
     signup,
+    loginWithPolkadot,
     logout,
   }
 
