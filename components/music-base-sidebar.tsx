@@ -298,11 +298,11 @@ export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
                   transition={{ duration: 0.2 }}
                   className="flex items-center gap-2"
                 >
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-r from-purple-600 to-pink-600">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-r from-coral-500 to-coral-400">
                     <Music2 className="h-4 w-4 text-white" />
                   </div>
-                  <span className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600">
-                    MUSIC BASE
+                  <span className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-coral-500 to-coral-400">
+                    SONAR
                   </span>
                 </motion.div>
               ) : (
@@ -312,7 +312,7 @@ export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.2 }}
-                  className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 mx-auto"
+                  className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-r from-coral-500 to-coral-400 mx-auto"
                 >
                   <Music2 className="h-4 w-4 text-white" />
                 </motion.div>
@@ -355,7 +355,7 @@ export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
                                 <>
                                   <span className="whitespace-nowrap flex-1 text-left">{item.title}</span>
                                   {item.isNew && (
-                                    <Badge className="ml-auto bg-purple-600 text-white text-xs">New</Badge>
+                                    <Badge className="ml-auto bg-coral-600 text-white text-xs">New</Badge>
                                   )}
                                   {isSubMenuOpen ? (
                                     <ChevronUp className="h-4 w-4 flex-shrink-0" />
@@ -378,7 +378,7 @@ export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
                                 <>
                                   <span className="whitespace-nowrap">{item.title}</span>
                                   {item.isNew && (
-                                    <Badge className="ml-auto bg-purple-600 text-white text-xs">New</Badge>
+                                    <Badge className="ml-auto bg-coral-600 text-white text-xs">New</Badge>
                                   )}
                                 </>
                               )}
@@ -388,7 +388,7 @@ export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
                         {!expanded && (
                           <TooltipContent side="right" className="flex items-center gap-2">
                             {item.title}
-                            {item.isNew && <Badge className="bg-purple-600 text-white text-xs">New</Badge>}
+                            {item.isNew && <Badge className="bg-coral-600 text-white text-xs">New</Badge>}
                           </TooltipContent>
                         )}
                       </Tooltip>
@@ -450,7 +450,7 @@ export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
                   >
                     <Avatar className="h-8 w-8">
                       <AvatarImage src="/abstract-geometric-shapes.png" alt="User" />
-                      <AvatarFallback className="bg-purple-600 text-white">MB</AvatarFallback>
+                      <AvatarFallback className="bg-coral-600 text-white">SN</AvatarFallback>
                     </Avatar>
                     {expanded && (
                       <div className="flex flex-col">
@@ -497,11 +497,11 @@ export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
                 <SheetContent side="left" className="w-[85%] max-w-[350px] p-0">
                   <SheetHeader className="border-b border-border p-4">
                     <SheetTitle className="flex items-center gap-2">
-                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-purple-600 to-pink-600">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-coral-500 to-coral-400">
                         <Music2 className="h-4 w-4 text-white" />
                       </div>
-                      <span className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600">
-                        MUSIC BASE
+                      <span className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-coral-500 to-coral-400">
+                        SONAR
                       </span>
                     </SheetTitle>
                   </SheetHeader>
@@ -515,7 +515,7 @@ export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
                           >
                             <item.icon className="h-5 w-5" />
                             <span>{item.title}</span>
-                            {item.isNew && <Badge className="ml-auto bg-purple-600 text-white text-xs">New</Badge>}
+                            {item.isNew && <Badge className="ml-auto bg-coral-600 text-white text-xs">New</Badge>}
                           </Link>
                         </SheetClose>
                       ))}
@@ -533,7 +533,7 @@ export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
 
             <div className="flex items-center gap-2">
               {isMobile && (
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-purple-600 to-pink-600">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-coral-500 to-coral-400">
                   <Music2 className="h-4 w-4 text-white" />
                 </div>
               )}
@@ -543,7 +543,7 @@ export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
             <div className="flex items-center gap-2 md:gap-4">
               <Button variant="outline" size="icon" className="relative">
                 <Bell className="h-5 w-5" />
-                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-purple-600 text-[10px] text-white">
+                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-coral-600 text-[10px] text-white">
                   3
                 </span>
               </Button>
@@ -556,7 +556,7 @@ export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
               </Button>
 
               <Button
-                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:opacity-90 transition-opacity"
+                className="bg-gradient-to-r from-coral-500 to-coral-400 hover:opacity-90 transition-opacity"
                 size="sm"
                 asChild
               >
