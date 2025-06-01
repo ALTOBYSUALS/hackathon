@@ -8,7 +8,7 @@
   "theme_color": "#f47560",
   "icons": [
     {
-      "src": "/coral-logo.png",
+      "src": "/coral-logo-transparent.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"

@@ -68,9 +68,9 @@ export function MainSidebar() {
       <div className="flex h-16 items-center justify-between border-b px-4">
         {expanded ? (
           <Link href="/" className="flex items-center gap-2 font-semibold">
-            <div className="h-8 w-8 rounded-md overflow-hidden bg-white flex items-center justify-center">
+            <div className="h-8 w-8 rounded-md overflow-hidden flex items-center justify-center">
               <Image 
-                src="/coral-logo.png" 
+                src="/coral-logo-transparent.png" 
                 alt="MUSIC BASE Logo" 
                 width={32} 
                 height={32}
@@ -83,9 +83,9 @@ export function MainSidebar() {
           </Link>
         ) : (
           <Link href="/" className="mx-auto">
-            <div className="h-8 w-8 rounded-md overflow-hidden bg-white flex items-center justify-center">
+            <div className="h-8 w-8 rounded-md overflow-hidden flex items-center justify-center">
               <Image 
-                src="/coral-logo.png" 
+                src="/coral-logo-transparent.png" 
                 alt="MUSIC BASE Logo" 
                 width={32} 
                 height={32}
