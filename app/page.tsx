@@ -1,7 +1,6 @@
 "use client"
 
-import { useState } from "react"
-import LandingPage from "./landing-page"
+import { useState, useEffect } from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
 import { useSearchParams } from "next/navigation"
@@ -29,6 +28,7 @@ import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import { useMobile } from "@/hooks/use-mobile"
 import { useAuth } from "@/contexts/auth-context"
+import AuthModal from "@/components/auth/auth-modal"
 
 // Sample data for charts
 const streamData = [
@@ -74,6 +74,7 @@ const fadeInUp = {
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("overview")
+  const [showAuthModal, setShowAuthModal] = useState(false)
   const isMobile = useMobile()
   const { isAuthenticated, isLoading, user } = useAuth()
   const searchParams = useSearchParams()
@@ -81,21 +82,58 @@ export default function Dashboard() {
   // Check if action=auth is in URL
   const actionParam = searchParams.get('action')
   
+  // Show auth modal when not authenticated or when action=auth is in URL
+  useEffect(() => {
+    if (!isAuthenticated || actionParam === 'auth') {
+      setShowAuthModal(true)
+    }
+  }, [isAuthenticated, actionParam])
+  
   // Show loading state while checking authentication
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="flex flex-col items-center gap-4">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-coral-500 border-t-transparent"></div>
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-sonar-coral-500 border-t-transparent"></div>
           <p className="text-muted-foreground">Loading...</p>
         </div>
       </div>
     )
   }
 
-  // Show landing page for non-authenticated users OR if action=auth is in URL
-  if (!isAuthenticated || actionParam === 'auth') {
-    return <LandingPage />
+  // Show a simple welcome screen if not authenticated
+  if (!isAuthenticated) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen p-4">
+        <div className="max-w-md text-center space-y-6">
+          <div className="flex items-center justify-center gap-2 mb-8">
+            <Image 
+              src="/sonar-icon.png" 
+              alt="SONAR" 
+              width={60} 
+              height={60}
+              className="object-contain"
+            />
+            <h1 className="text-4xl font-bold sonar-logo-text">SONAR</h1>
+          </div>
+          <p className="text-lg text-muted-foreground">
+            Welcome to SONAR - The next generation music platform
+          </p>
+          <Button 
+            onClick={() => setShowAuthModal(true)}
+            className="bg-sonar-coral-500 hover:bg-sonar-coral-600 text-white"
+            size="lg"
+          >
+            Sign In to Continue
+          </Button>
+        </div>
+        <AuthModal 
+          isOpen={showAuthModal}
+          onClose={() => setShowAuthModal(false)}
+          onAuthSuccess={() => setShowAuthModal(false)}
+        />
+      </div>
+    )
   }
 
   // Get current time to display appropriate greeting
