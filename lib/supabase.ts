@@ -1,19 +1,24 @@
 import { createClient } from '@supabase/supabase-js'
 
-// Valores por defecto para desarrollo/demo
-const DEFAULT_SUPABASE_URL = 'https://placeholder.supabase.co'
-const DEFAULT_SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsYWNlaG9sZGVyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NDUxOTI3MjAsImV4cCI6MTk2MDc2ODcyMH0.placeholder-key'
+// Valores por defecto para desarrollo/demo - URLs válidas pero ficticias
+const DEFAULT_SUPABASE_URL = 'https://demo-project-id.supabase.co'
+const DEFAULT_SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRlbW8tcHJvamVjdC1pZCIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNjQ1MTA5NjAwLCJleHAiOjE5NjA2ODU2MDB9.demo-anon-key'
 
-if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
-  console.warn('NEXT_PUBLIC_SUPABASE_URL not found, using default demo URL')
+// Verificar si estamos en modo demo
+export const isDemoMode = () => {
+  return !process.env.NEXT_PUBLIC_SUPABASE_URL || 
+         !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+         process.env.NEXT_PUBLIC_SUPABASE_URL === DEFAULT_SUPABASE_URL
 }
 
-if (!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-  console.warn('NEXT_PUBLIC_SUPABASE_ANON_KEY not found, using default demo key')
+// Solo mostrar warnings en el browser, no durante build
+if (typeof window !== 'undefined') {
+  if (isDemoMode()) {
+    console.warn('Using demo mode - Supabase functions will return mock data')
+  }
 }
 
 // Crear el cliente de Supabase con valores por defecto
-console.log(`Attempting to initialize Supabase client. Using DEFAULT_SUPABASE_URL: ${DEFAULT_SUPABASE_URL}`);
 export const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL || DEFAULT_SUPABASE_URL,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || DEFAULT_SUPABASE_KEY
@@ -38,12 +43,6 @@ export type User = {
   avatar_url: string
   followers: number
   following: number
-}
-
-// Verificar si estamos en modo demo
-const isDemoMode = () => {
-  return !process.env.NEXT_PUBLIC_SUPABASE_URL || 
-         process.env.NEXT_PUBLIC_SUPABASE_URL === DEFAULT_SUPABASE_URL
 }
 
 // Funciones para interactuar con los datos
