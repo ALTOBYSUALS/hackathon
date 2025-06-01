@@ -4,25 +4,44 @@ import { createClient } from '@supabase/supabase-js'
 const DEFAULT_SUPABASE_URL = 'https://demo-project-id.supabase.co'
 const DEFAULT_SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRlbW8tcHJvamVjdC1pZCIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNjQ1MTA5NjAwLCJleHAiOjE5NjA2ODU2MDB9.demo-anon-key'
 
+// Función para validar si una URL es válida
+const isValidSupabaseUrl = (url: string | undefined): url is string => {
+  if (!url) return false
+  try {
+    const newUrl = new URL(url)
+    return newUrl.protocol === 'https:' && newUrl.host.endsWith('.supabase.co')
+  } catch (e) {
+    return false
+  }
+}
+
+const supabaseUrl = isValidSupabaseUrl(process.env.NEXT_PUBLIC_SUPABASE_URL) 
+  ? process.env.NEXT_PUBLIC_SUPABASE_URL 
+  : DEFAULT_SUPABASE_URL
+
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || DEFAULT_SUPABASE_KEY
+
 // Verificar si estamos en modo demo
 export const isDemoMode = () => {
-  return !process.env.NEXT_PUBLIC_SUPABASE_URL || 
-         !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
-         process.env.NEXT_PUBLIC_SUPABASE_URL === DEFAULT_SUPABASE_URL
+  return supabaseUrl === DEFAULT_SUPABASE_URL || supabaseAnonKey === DEFAULT_SUPABASE_KEY
 }
 
 // Solo mostrar warnings en el browser, no durante build
 if (typeof window !== 'undefined') {
-  if (isDemoMode()) {
-    console.warn('Using demo mode - Supabase functions will return mock data')
+  if (!isValidSupabaseUrl(process.env.NEXT_PUBLIC_SUPABASE_URL)){
+    console.warn('Invalid or missing NEXT_PUBLIC_SUPABASE_URL, using default demo URL')
+  }
+  if (!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY){
+    console.warn('Missing NEXT_PUBLIC_SUPABASE_ANON_KEY, using default demo key')
+  }
+  if (isDemoMode() && (isValidSupabaseUrl(process.env.NEXT_PUBLIC_SUPABASE_URL) && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)){
+    // This case implies that the provided URL/Key are the same as the default ones, which is fine for demo/local dev.
+    console.log('Using default demo Supabase credentials.') 
   }
 }
 
 // Crear el cliente de Supabase con valores por defecto
-export const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL || DEFAULT_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || DEFAULT_SUPABASE_KEY
-)
+export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
 // Tipos para nuestros datos
 export type Track = {
