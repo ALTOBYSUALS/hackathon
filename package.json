@@ -1,12 +1,13 @@
 {
-  "name": "my-v0-project",
+  "name": "music-distribution-dashboard",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "vercel-build": "pnpm build"
   },
   "dependencies": {
     "@emotion/is-prop-valid": "latest",
