@@ -100,7 +100,18 @@ export function MainSidebar() {
           onClick={() => setExpanded(!expanded)}
           className="h-8 w-8 flex-shrink-0"
         >
-          <Menu className="h-5 w-5" />
+          {expanded ? (
+            <Menu className="h-5 w-5" />
+          ) : (
+            <div className="h-5 w-5 relative">
+              <Image 
+                src="/sonar-icon.png" 
+                alt="SONAR Logo" 
+                fill
+                className="object-contain"
+              />
+            </div>
+          )}
           <span className="sr-only">Toggle sidebar</span>
         </Button>
       </div>
