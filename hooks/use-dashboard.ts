@@ -34,7 +34,7 @@ export function useDashboard() {
       { name: "Apple Music", streams: 320000, color: "bg-red-500" },
       { name: "Amazon Music", streams: 180000, color: "bg-blue-500" },
       { name: "YouTube Music", streams: 150000, color: "bg-yellow-500" },
-      { name: "Others", streams: 100000, color: "bg-purple-500" },
+      { name: "Others", streams: 100000, color: "bg-coral-500" },
     ],
     recentReleases: [
       {

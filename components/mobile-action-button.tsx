@@ -63,7 +63,7 @@ export function MobileActionButton({ items, className }: MobileActionButtonProps
 
       <Button
         size="icon"
-        className="h-14 w-14 rounded-full shadow-lg bg-gradient-to-r from-purple-600 to-pink-600"
+        className="h-14 w-14 rounded-full shadow-lg bg-gradient-to-r from-coral-500 to-coral-600"
         onClick={toggleOpen}
       >
         <motion.div animate={{ rotate: isOpen ? 45 : 0 }} transition={{ duration: 0.2 }}>

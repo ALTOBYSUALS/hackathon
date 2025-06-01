@@ -27,6 +27,7 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { useState } from "react"
+import { SonarLogo } from "@/components/sonar-logo"
 
 export function MainSidebar() {
   const pathname = usePathname()
@@ -77,7 +78,7 @@ export function MainSidebar() {
                 className="object-contain"
               />
             </div>
-            <span className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-coral-500 to-coral-400">
+            <span className="sonar-logo-text">
               SONAR
             </span>
           </Link>

@@ -66,6 +66,7 @@ import {
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from "@/components/ui/sheet"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { useMobile } from "@/hooks/use-mobile"
+import { SonarLogo } from "@/components/sonar-logo"
 
 export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
@@ -308,7 +309,7 @@ export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
                       className="object-contain"
                     />
                   </div>
-                  <span className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-coral-500 to-coral-400">
+                  <span className="sonar-logo-text">
                     SONAR
                   </span>
                 </motion.div>
@@ -519,7 +520,7 @@ export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
                           className="object-contain"
                         />
                       </div>
-                      <span className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-coral-500 to-coral-400">
+                      <span className="sonar-logo-text">
                         SONAR
                       </span>
                     </SheetTitle>

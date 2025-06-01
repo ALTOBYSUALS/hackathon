@@ -23,7 +23,7 @@ export function ResponsiveLayout({ children }: ResponsiveLayoutProps) {
   if (!mounted) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-coral-600"></div>
       </div>
     )
   }

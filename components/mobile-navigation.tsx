@@ -32,6 +32,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
+import { SonarLogo } from "@/components/sonar-logo"
 
 export function MobileNavigation() {
   const pathname = usePathname()
@@ -136,7 +137,7 @@ export function MobileNavigation() {
                       />
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-xl font-bold text-white">SONAR</span>
+                      <span className="sonar-logo-text text-xl">SONAR</span>
                       <span className="text-xs text-white/80">Neodistro Platform</span>
                     </div>
                   </div>
@@ -246,7 +247,7 @@ export function MobileNavigation() {
                 className="object-contain"
               />
             </div>
-            <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-coral-500 to-coral-400">
+            <span className="sonar-logo-text text-xl">
               SONAR
             </span>
           </Link>
