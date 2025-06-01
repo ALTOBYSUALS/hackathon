@@ -89,6 +89,12 @@ export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
       href: "/",
     },
     {
+      title: "Discover",
+      icon: Music2,
+      href: "/discover",
+      isNew: true,
+    },
+    {
       title: "My Music",
       icon: Music2,
       href: "/music",
