@@ -323,9 +323,9 @@ export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.2 }}
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 flex-1"
                 >
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg overflow-hidden">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg overflow-hidden flex-shrink-0">
                     <Image 
                       src="/sonar-icon.png" 
                       alt="SONAR" 
@@ -345,27 +345,43 @@ export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.2 }}
-                  className="flex h-10 w-10 items-center justify-center rounded-lg overflow-hidden mx-auto"
+                  className="flex w-full justify-center"
                 >
-                  <Image 
-                    src="/sonar-icon.png" 
-                    alt="SONAR" 
-                    width={40} 
-                    height={40}
-                    className="object-contain"
-                  />
+                  <TooltipProvider delayDuration={0}>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <button
+                          onClick={() => setExpanded(true)}
+                          className="flex h-12 w-12 items-center justify-center rounded-lg overflow-hidden cursor-pointer hover:bg-sonar-coral-500/10 transition-all duration-200 group"
+                        >
+                          <Image 
+                            src="/sonar-icon.png" 
+                            alt="SONAR" 
+                            width={48} 
+                            height={48}
+                            className="object-contain transition-transform duration-200 group-hover:scale-110"
+                          />
+                        </button>
+                      </TooltipTrigger>
+                      <TooltipContent side="right">
+                        <span>Expand sidebar</span>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                 </motion.div>
               )}
             </AnimatePresence>
 
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setExpanded(!expanded)}
-              className="h-8 w-8 flex-shrink-0"
-            >
-              <Menu className="h-5 w-5" />
-            </Button>
+            {expanded && (
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setExpanded(!expanded)}
+                className="h-8 w-8 flex-shrink-0 ml-2 hover:bg-sonar-coral-500/10"
+              >
+                <Menu className="h-5 w-5" />
+              </Button>
+            )}
           </div>
 
           {/* Navigation */}
@@ -386,10 +402,10 @@ export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
                               onClick={(e) => toggleSubMenu(item.title, e)}
                               className={cn(
                                 "w-full flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200 hover:bg-muted",
-                                active ? "bg-primary/10 text-primary" : "text-muted-foreground",
+                                active ? "bg-sonar-coral-500/10 text-sonar-coral-600 dark:text-sonar-coral-500" : "text-muted-foreground",
                               )}
                             >
-                              <item.icon className={cn("h-5 w-5 flex-shrink-0", active && "text-primary")} />
+                              <item.icon className={cn("h-5 w-5 flex-shrink-0", active && "text-sonar-coral-500")} />
                               {expanded && (
                                 <>
                                   <span className="whitespace-nowrap flex-1 text-left">{item.title}</span>
@@ -409,10 +425,10 @@ export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
                               href={item.href}
                               className={cn(
                                 "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200 hover:bg-muted",
-                                active ? "bg-primary/10 text-primary" : "text-muted-foreground",
+                                active ? "bg-sonar-coral-500/10 text-sonar-coral-600 dark:text-sonar-coral-500" : "text-muted-foreground",
                               )}
                             >
-                              <item.icon className={cn("h-5 w-5 flex-shrink-0", active && "text-primary")} />
+                              <item.icon className={cn("h-5 w-5 flex-shrink-0", active && "text-sonar-coral-500")} />
                               {expanded && (
                                 <>
                                   <span className="whitespace-nowrap">{item.title}</span>
@@ -456,7 +472,7 @@ export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
                                     className={cn(
                                       "flex items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors",
                                       subActive
-                                        ? "bg-primary/10 text-primary font-medium"
+                                        ? "bg-sonar-coral-500/10 text-sonar-coral-600 dark:text-sonar-coral-500 font-medium"
                                         : "text-muted-foreground hover:bg-muted hover:text-foreground",
                                     )}
                                   >
@@ -478,7 +494,10 @@ export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
 
           {/* User Profile */}
           <div className="border-t border-border p-4">
-            <div className="flex items-center justify-between">
+            <div className={cn(
+              "flex items-center",
+              expanded ? "justify-between" : "justify-center flex-col gap-3"
+            )}>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <div
@@ -499,7 +518,7 @@ export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
                     )}
                   </div>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuContent align={expanded ? "end" : "center"} className="w-56">
                   <DropdownMenuLabel>My Account</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem asChild>
@@ -514,7 +533,7 @@ export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-              {expanded && <ThemeToggle />}
+              <ThemeToggle />
             </div>
           </div>
         </motion.div>
@@ -635,10 +654,10 @@ export function MusicBaseSidebar({ children }: { children: React.ReactNode }) {
                     href={item.href}
                     className={cn(
                       "flex flex-col items-center justify-center w-full h-full text-xs font-medium transition-colors",
-                      active ? "text-primary" : "text-muted-foreground",
+                      active ? "text-sonar-coral-500" : "text-muted-foreground",
                     )}
                   >
-                    <item.icon className={cn("h-5 w-5 mb-1", active && "text-primary")} />
+                    <item.icon className={cn("h-5 w-5 mb-1", active && "text-sonar-coral-500")} />
                     <span>{item.title}</span>
                   </Link>
                 )
