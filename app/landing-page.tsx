@@ -1,9 +1,9 @@
 "use client"
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { Play, Pause, Music, Upload, BarChart3, CircleDollarSign, ArrowRight, Globe, Users, Sparkles, Boxes } from 'lucide-react'
 
@@ -47,11 +47,19 @@ const featuredTracks: AudioTrack[] = [
 
 export default function LandingPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const { isAuthenticated } = useAuth()
   const [currentTrack, setCurrentTrack] = useState<AudioTrack | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [showAuthModal, setShowAuthModal] = useState(false)
   const audioRef = useRef<HTMLAudioElement | null>(null)
+
+  useEffect(() => {
+    const action = searchParams.get('action')
+    if (action === 'auth') {
+      setShowAuthModal(true)
+    }
+  }, [searchParams])
 
   const handlePlayPause = (track: AudioTrack) => {
     if (currentTrack && currentTrack.id === track.id) {
