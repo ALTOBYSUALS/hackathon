@@ -1,8 +1,8 @@
 import { createClient } from '@supabase/supabase-js'
 
 // Valores por defecto para desarrollo/demo
-const DEFAULT_SUPABASE_URL = 'https://demo-project.supabase.co'
-const DEFAULT_SUPABASE_KEY = 'demo-key-placeholder'
+const DEFAULT_SUPABASE_URL = 'https://placeholder.supabase.co'
+const DEFAULT_SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsYWNlaG9sZGVyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NDUxOTI3MjAsImV4cCI6MTk2MDc2ODcyMH0.placeholder-key'
 
 if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
   console.warn('NEXT_PUBLIC_SUPABASE_URL not found, using default demo URL')
@@ -89,9 +89,11 @@ export async function getTrackById(id: string) {
 export async function uploadTrack(file: File, metadata: Omit<Track, 'id' | 'audio_url' | 'created_at'>) {
   if (isDemoMode()) {
     console.log('Demo mode: simulating track upload')
+    // Only create object URL if running in browser
+    const audioUrl = typeof window !== 'undefined' ? URL.createObjectURL(file) : `demo-${Date.now()}.mp3`
     return {
       id: 'demo-' + Date.now(),
-      audio_url: URL.createObjectURL(file),
+      audio_url: audioUrl,
       created_at: new Date().toISOString(),
       ...metadata
     } as Track

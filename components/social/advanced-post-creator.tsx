@@ -71,12 +71,10 @@ export function AdvancedPostCreator() {
   }
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files
-    if (files && files.length > 0) {
-      // In a real app, you would upload the file to a server
-      // For now, we'll just create a URL for the file
-      const newAttachments = Array.from(files).map((file) => ({
-        id: Date.now(),
+    const files = Array.from(e.target.files || [])
+    if (files.length > 0) {
+      const newAttachments = files.map((file, index) => ({
+        id: Date.now() + index,
         type: file.type.startsWith("image/")
           ? "image"
           : file.type.startsWith("audio/")
@@ -86,7 +84,7 @@ export function AdvancedPostCreator() {
               : "file",
         name: file.name,
         size: file.size,
-        url: URL.createObjectURL(file),
+        url: typeof window !== 'undefined' ? URL.createObjectURL(file) : `demo-${Date.now()}-${file.name}`,
       }))
 
       setAttachments([...attachments, ...newAttachments])
