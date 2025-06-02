@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from 'react'
-import { Search, Filter, TrendingUp, Music, Users, Clock, PlayCircle, Upload } from 'lucide-react'
+import { Search, Filter, TrendingUp, Music, Users, Clock, PlayCircle, Upload, ExternalLink, Zap, Shield, Coins } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -104,6 +104,66 @@ export default function DiscoverPage() {
               >
                 <Upload className="h-4 w-4 mr-2" />
                 Upload Track
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Polkadot Partnership Banner */}
+      <div className="bg-gradient-to-r from-pink-600 via-purple-600 to-blue-600 text-white">
+        <div className="container mx-auto px-4 py-6">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
+            <div className="flex items-center gap-4">
+              <div className="relative">
+                <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-sm border border-white/20">
+                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16 0C24.8366 0 32 7.16344 32 16C32 24.8366 24.8366 32 16 32C7.16344 32 0 24.8366 0 16C0 7.16344 7.16344 0 16 0Z" fill="white"/>
+                    <circle cx="16" cy="8" r="3" fill="#E91E63"/>
+                    <circle cx="8" cy="20" r="3" fill="#E91E63"/>
+                    <circle cx="24" cy="20" r="3" fill="#E91E63"/>
+                    <circle cx="16" cy="24" r="3" fill="#E91E63"/>
+                    <path d="M13 16L19 16M16 13L16 19" stroke="#E91E63" strokeWidth="2" strokeLinecap="round"/>
+                  </svg>
+                </div>
+                <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-400 rounded-full flex items-center justify-center">
+                  <Zap className="w-2 h-2 text-green-900" />
+                </div>
+              </div>
+              
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <h3 className="text-xl font-bold">Powered by Polkadot</h3>
+                  <span className="px-2 py-1 bg-white/20 text-xs font-medium rounded-full">LIVE</span>
+                </div>
+                <p className="text-white/80 text-sm max-w-lg">
+                  🚀 Web3 Music Revolution • Decentralized royalties • NFT ownership • Cross-chain compatibility
+                </p>
+              </div>
+            </div>
+            
+            <div className="flex flex-col sm:flex-row items-center gap-3">
+              <div className="flex items-center gap-4 text-sm">
+                <div className="flex items-center gap-1">
+                  <Shield className="w-4 h-4 text-green-400" />
+                  <span>Secure</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <Coins className="w-4 h-4 text-yellow-400" />
+                  <span>90% Royalties</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <Zap className="w-4 h-4 text-blue-400" />
+                  <span>Instant</span>
+                </div>
+              </div>
+              
+              <Button 
+                onClick={() => window.open('https://polkadot.network', '_blank')}
+                className="bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 transition-all"
+              >
+                Learn More
+                <ExternalLink className="w-4 h-4 ml-2" />
               </Button>
             </div>
           </div>
