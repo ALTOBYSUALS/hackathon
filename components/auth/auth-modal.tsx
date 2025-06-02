@@ -60,12 +60,22 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess }: AuthModalP
   }
 
   const handlePolkadotConnect = async (address: string, name?: string) => {
+    console.log("🔥 handlePolkadotConnect called with:", address, name)
+    setError("")
+    
     try {
       // Use the loginWithPolkadot method from auth context
+      console.log("🔥 Calling loginWithPolkadot...")
       await loginWithPolkadot(address, name)
+      console.log("🔥 loginWithPolkadot successful")
+      
+      console.log("🔥 Calling onAuthSuccess...")
       onAuthSuccess()
+      
+      console.log("🔥 Calling onClose...")
       onClose()
     } catch (error) {
+      console.error("🚨 Polkadot authentication error:", error)
       setError("Failed to authenticate with Polkadot wallet")
     }
   }

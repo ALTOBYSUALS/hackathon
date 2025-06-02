@@ -366,4 +366,132 @@ export async function checkSupabaseConnection() {
     console.error('Error checking Supabase connection:', err);
     return { connected: false, error: err };
   }
+}
+
+// Función para subir una canción completa (audio + artwork + metadata)
+export async function uploadSong(
+  audioFile: File,
+  artworkFile: File | null,
+  metadata: {
+    title: string
+    artistName: string
+    genre?: string
+    recordLabel?: string
+    language?: string
+  },
+  userId: string
+) {
+  if (isDemoMode()) {
+    console.log('Demo mode: simulating song upload')
+    return {
+      id: 'demo-song-' + Date.now(),
+      title: metadata.title,
+      artist: metadata.artistName,
+      cover_url: artworkFile ? URL.createObjectURL(artworkFile) : '/default-cover.png',
+      audio_url: URL.createObjectURL(audioFile),
+      plays: 0,
+      likes: 0,
+      user_id: userId,
+      created_at: new Date().toISOString()
+    }
+  }
+
+  try {
+    // 1. Subir el archivo de audio
+    const audioFileName = `${userId}/${Date.now()}-${audioFile.name}`
+    const { data: audioData, error: audioError } = await supabase.storage
+      .from('songs')
+      .upload(audioFileName, audioFile)
+    
+    if (audioError) throw audioError
+    
+    // Obtener URL pública del audio
+    const { data: audioUrlData } = supabase.storage
+      .from('songs')
+      .getPublicUrl(audioFileName)
+    
+    // 2. Subir el artwork si existe
+    let coverUrl = '/default-cover.png'
+    if (artworkFile) {
+      const artworkFileName = `${userId}/${Date.now()}-${artworkFile.name}`
+      const { data: artworkData, error: artworkError } = await supabase.storage
+        .from('covers')
+        .upload(artworkFileName, artworkFile)
+      
+      if (!artworkError) {
+        const { data: artworkUrlData } = supabase.storage
+          .from('covers')
+          .getPublicUrl(artworkFileName)
+        coverUrl = artworkUrlData.publicUrl
+      }
+    }
+    
+    // 3. Guardar metadata en la base de datos
+    const { data, error } = await supabase
+      .from('tracks')
+      .insert({
+        title: metadata.title,
+        artist: metadata.artistName,
+        genre: metadata.genre || 'Other',
+        record_label: metadata.recordLabel || 'Independent',
+        language: metadata.language || 'English',
+        cover_url: coverUrl,
+        audio_url: audioUrlData.publicUrl,
+        user_id: userId,
+        plays: 0,
+        likes: 0,
+        created_at: new Date().toISOString()
+      })
+      .select()
+      .single()
+    
+    if (error) throw error
+    
+    return data
+  } catch (error) {
+    console.error('Error uploading song:', error)
+    throw error
+  }
+}
+
+// Función para obtener las canciones más recientes para Discover
+export async function getRecentTracks(limit: number = 10) {
+  if (isDemoMode()) {
+    console.log('Demo mode: returning demo tracks')
+    return [
+      {
+        id: '1',
+        title: 'Midnight Dreams',
+        artist: 'Demo Artist',
+        cover_url: '/electronic-album-cover.png',
+        audio_url: '/demo-track.mp3',
+        plays: 1234,
+        likes: 89,
+        created_at: new Date().toISOString()
+      },
+      {
+        id: '2',
+        title: 'Urban Vibes',
+        artist: 'Test User',
+        cover_url: '/hip-hop-album-cover.png',
+        audio_url: '/demo-track-2.mp3',
+        plays: 567,
+        likes: 45,
+        created_at: new Date().toISOString()
+      }
+    ]
+  }
+  
+  const { data, error } = await supabase
+    .from('tracks')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .limit(limit)
+  
+  if (error) {
+    console.error('Error fetching recent tracks:', error)
+    return []
+  }
+  
+  return data || []
 } 

@@ -5,7 +5,7 @@ import type React from "react"
 import { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { ArrowRight, Check, Upload } from "lucide-react"
+import { ArrowRight, Check, Upload, Loader2 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -15,11 +15,18 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Separator } from "@/components/ui/separator"
 import { useForm, FormProvider } from "react-hook-form"
 import { PageContainer, PageHeader, PageContent } from "@/components/page-container"
+import { useAuth } from "@/contexts/auth-context"
+import { uploadSong } from "@/lib/supabase"
+import { useToast } from "@/components/ui/use-toast"
 
 export default function UploadMusic() {
   const router = useRouter()
+  const { user } = useAuth()
+  const { toast } = useToast()
   const [coverArtPreview, setCoverArtPreview] = useState<string | null>(null)
   const [audioFile, setAudioFile] = useState<File | null>(null)
+  const [coverFile, setCoverFile] = useState<File | null>(null)
+  const [isUploading, setIsUploading] = useState(false)
 
   const form = useForm({
     defaultValues: {
@@ -38,6 +45,7 @@ export default function UploadMusic() {
   const handleCoverArtChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
+      setCoverFile(file)
       const reader = new FileReader()
       reader.onload = (event) => {
         setCoverArtPreview(event.target?.result as string)
@@ -53,9 +61,59 @@ export default function UploadMusic() {
     }
   }
 
-  const onSubmit = (data: any) => {
-    console.log("Form data:", data)
-    router.push("/music/upload/track-details")
+  const onSubmit = async (data: any) => {
+    if (!user) {
+      toast({
+        title: "Authentication required",
+        description: "Please sign in to upload music",
+        variant: "destructive",
+      })
+      return
+    }
+
+    if (!audioFile) {
+      toast({
+        title: "Audio file required",
+        description: "Please select an audio file to upload",
+        variant: "destructive",
+      })
+      return
+    }
+
+    setIsUploading(true)
+
+    try {
+      // Subir la canción a Supabase
+      const result = await uploadSong(
+        audioFile,
+        coverFile,
+        {
+          title: data.title,
+          artistName: data.artists,
+          genre: data.primaryGenre,
+          recordLabel: data.label,
+          language: data.language,
+        },
+        user.id
+      )
+
+      toast({
+        title: "Upload successful! 🎉",
+        description: "Your track has been uploaded and is now live on Discover",
+      })
+
+      // Ir a la página Discover después de subir exitosamente
+      router.push("/discover")
+    } catch (error) {
+      console.error("Upload error:", error)
+      toast({
+        title: "Upload failed",
+        description: "There was an error uploading your track. Please try again.",
+        variant: "destructive",
+      })
+    } finally {
+      setIsUploading(false)
+    }
   }
 
   return (
@@ -128,7 +186,7 @@ export default function UploadMusic() {
                           <FormItem>
                             <FormLabel>Release Title</FormLabel>
                             <FormControl>
-                              <Input placeholder="Enter release title" {...field} />
+                              <Input placeholder="Enter release title" {...field} required />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -142,7 +200,7 @@ export default function UploadMusic() {
                           <FormItem>
                             <FormLabel>Main Artist(s)</FormLabel>
                             <FormControl>
-                              <Input placeholder="Enter artist name(s)" {...field} />
+                              <Input placeholder="Enter artist name(s)" {...field} required />
                             </FormControl>
                             <FormDescription>Separate multiple artists with commas</FormDescription>
                             <FormMessage />
@@ -339,7 +397,7 @@ export default function UploadMusic() {
                                 <Input
                                   id="audio-file"
                                   type="file"
-                                  accept="audio/wav,audio/flac"
+                                  accept="audio/*"
                                   className="hidden"
                                   onChange={(e) => {
                                     handleAudioFileChange(e)
@@ -347,7 +405,7 @@ export default function UploadMusic() {
                                   }}
                                 />
                               </FormControl>
-                              <p className="mt-2 text-xs text-muted-foreground">WAV or FLAC format, high quality</p>
+                              <p className="mt-2 text-xs text-muted-foreground">WAV, FLAC, MP3 format</p>
                             </div>
                           </div>
                           <FormMessage />
@@ -363,12 +421,25 @@ export default function UploadMusic() {
                   <Link href="/music">Cancel</Link>
                 </Button>
                 <div className="flex gap-2">
-                  <Button variant="outline" type="button">
+                  <Button variant="outline" type="button" disabled={isUploading}>
                     Save Draft
                   </Button>
-                  <Button type="submit" className="bg-[#8A3FFC] hover:bg-[#7B2CF9]">
-                    Next: Track Details
-                    <ArrowRight className="ml-2 h-4 w-4" />
+                  <Button 
+                    type="submit" 
+                    className="bg-sonar-coral-500 hover:bg-sonar-coral-600"
+                    disabled={isUploading}
+                  >
+                    {isUploading ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Uploading...
+                      </>
+                    ) : (
+                      <>
+                        Upload Track
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </>
+                    )}
                   </Button>
                 </div>
               </div>

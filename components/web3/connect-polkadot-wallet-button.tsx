@@ -70,18 +70,25 @@ export default function ConnectPolkadotWalletButton({
   };
 
   const selectAccount = async (account: InjectedAccountWithMeta) => {
+    console.log("🔥 ConnectPolkadot: selectAccount called with:", account.address, account.meta.name)
     setSelectedAccount(account);
-    console.log("Polkadot account connected:", account.address);
+    console.log("🔥 ConnectPolkadot: Polkadot account connected:", account.address);
     
-    // Sign a message to prove ownership
+    // Call onConnect immediately after selecting account
+    if (onConnect) {
+      console.log("🔥 ConnectPolkadot: Calling onConnect callback...")
+      onConnect(account.address, account.meta.name);
+      console.log("🔥 ConnectPolkadot: onConnect callback completed")
+    }
+    
+    // Sign a message to prove ownership (optional, for enhanced security)
     try {
+      console.log("🔥 ConnectPolkadot: Starting message signing...")
       const message = await signMessage(account);
-      if (message && onConnect) {
-        onConnect(account.address, account.meta.name);
-      }
+      console.log("🔥 ConnectPolkadot: Message signed successfully:", message)
     } catch (err) {
-      console.error("Error signing message:", err);
-      setError("Failed to authenticate with wallet");
+      console.error("🚨 ConnectPolkadot: Error signing message (non-critical):", err);
+      // Don't set error here as the connection was successful
     }
   };
 

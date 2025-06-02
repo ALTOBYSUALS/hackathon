@@ -109,6 +109,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   const loginWithPolkadot = async (address: string, name?: string) => {
+    console.log("🔥 AuthContext: loginWithPolkadot called with:", address, name)
     setIsLoading(true)
     
     try {
@@ -127,13 +128,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         authType: 'web3'
       }
       
+      console.log("🔥 AuthContext: Setting user data:", userData)
       setUser(userData)
       localStorage.setItem('sonar_user', JSON.stringify(userData))
       
       // TODO: In production, integrate with your backend to create/retrieve the user
-      console.log('Polkadot authentication successful:', address)
+      console.log('🔥 AuthContext: Polkadot authentication successful:', address)
     } catch (error) {
-      console.error('Polkadot login error:', error)
+      console.error('🚨 AuthContext: Polkadot login error:', error)
       throw error
     } finally {
       setIsLoading(false)
